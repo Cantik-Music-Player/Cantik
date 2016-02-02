@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/cantik.css"  media="screen,projection"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+      <ul id="slide-out" class="side-nav fixed">
+        <li class="bold first"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">library_music</i> Library</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">perm_media</i> Local File</a></li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">queue_music</i> Playlist</a></li>
+        <li class="no-padding">
+          <ul class="collapsible collapsible-accordion">
+            <li class="bold"><a class="collapsible-header waves-effect waves-teal"><i class="small material-icons">info</i> Track Information</a>
+              <div class="collapsible-body">
+                <ul>
+                  <li><a href="#">Lyrics</a></li>
+                  <li><a href="#">Artist</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">settings_applications</i> Settings</a></li>
+      </ul>
+      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>
+
+
+      <footer class="page-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col s1">
+              <a href="#"><i class="medium material-icons">skip_previous</i></a>
+            </div>
+            <div class="play-button-container col s1">
+              <a class="play-button" href="#">
+                <div class="play-left"></div>
+                <div class="play-right"></div>
+                <div class="triangle-1"></div>
+                <div class="triangle-2"></div>
+              </a>
+            </div>
+            <div class="col s1 move-left">
+              <a href="#"><i class="medium material-icons">skip_next</i></a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script>
+      //js code
+      $(document).ready(function(){
+         $(".button-collapse").sideNav({
+      menuWidth: 240, // Default is 240
+      edge: 'left', // Choose the horizontal origin
+    });
+         $('.collapsible').collapsible();
+
+         $(".play-button").click(function() {
+  $(this).toggleClass("paused");
+});
+      });
+    </script>
+  </body>
+</html>
