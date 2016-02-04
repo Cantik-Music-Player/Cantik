@@ -100,3 +100,13 @@ html, body{
 #player .random, #player .repeat, #player .volume-icon{
   font-size: 20px;
 }
+
+
+#sidebar ul{
+  margin-bottom: 20px;
+}
+
+#sidebar h4{
+  font-weight: bold;
+  color: grey;
+}
