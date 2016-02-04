@@ -1,74 +1,85 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!--Import Google Icon Font-->
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="css/cantik.css"  media="screen,projection"/>
 
-    <!--Let browser know website is optimized for mobile-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Bootstrap -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Material Design -->
+    <link href="dist/css/bootstrap-material-design.min.css" rel="stylesheet">
+    <link href="dist/css/ripples.min.css" rel="stylesheet">
+
+    <link href="css/cantik.css" rel="stylesheet">
   </head>
 
   <body>
-      <ul id="slide-out" class="side-nav fixed">
-        <li class="bold first"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">library_music</i> Library</a></li>
-        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">perm_media</i> Local File</a></li>
-        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">queue_music</i> Playlist</a></li>
-        <li class="no-padding">
-          <ul class="collapsible collapsible-accordion">
-            <li class="bold"><a class="collapsible-header waves-effect waves-teal"><i class="small material-icons">info</i> Track Information</a>
-              <div class="collapsible-body">
-                <ul>
-                  <li><a href="#">Lyrics</a></li>
-                  <li><a href="#">Artist</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </li>
-        <li class="bold"><a class="waves-effect waves-teal" href="#"><i class="small material-icons">settings_applications</i> Settings</a></li>
-      </ul>
-      <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="mdi-navigation-menu"></i></a>
+    <div class="panel panel-default" id="sidebar">
+      <div class="panel-body">
+        Side bar
+      </div>
+    </div>
 
+    <div class="panel panel-default" id="content">
+      <div class="panel-body">
+        Content
+      </div>
+    </div>
 
-      <footer class="page-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col s1">
-              <a href="#"><i class="medium material-icons">skip_previous</i></a>
-            </div>
-            <div class="play-button-container col s1">
-              <a class="play-button" href="#">
-                <div class="play-left"></div>
-                <div class="play-right"></div>
-                <div class="triangle-1"></div>
-                <div class="triangle-2"></div>
-              </a>
-            </div>
-            <div class="col s1 move-left">
-              <a href="#"><i class="medium material-icons">skip_next</i></a>
-            </div>
-          </div>
+    <div class="panel panel-default" id="player">
+      <p class="track-artist"><span class="title">7734</span> - <span class="artist">Sabaton</span></p>
+      <div class="panel-body">
+        <div class="left-button">
+          <button><i class="material-icons previous">skip_previous</i></button>
+          <button><i class="material-icons play">play_arrow</i></button>
+          <button><i class="material-icons next">skip_next</i></button>
         </div>
-      </footer>
 
-    <!--Import jQuery before materialize.js-->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="js/materialize.min.js"></script>
+        <span class="elapsed-time">1:54</span>
+
+        <div class="progress">
+          <div class="slider shor progressbar"></div>
+        </div>
+
+        <span class="total-time">3:43</span>
+
+        <div class="right-button">
+          <button><i class="material-icons repeat">repeat</i></button>
+          <button><i class="material-icons random">shuffle</i></button>
+        </div>
+      </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="dist/js/ripples.min.js"></script>
+    <script src="dist/js/material.min.js"></script>
+    <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/noUiSlider/6.2.0/jquery.nouislider.min.js"></script>
+
     <script>
-      //js code
-      $(document).ready(function(){
-         $(".button-collapse").sideNav({
-      menuWidth: 240, // Default is 240
-      edge: 'left', // Choose the horizontal origin
-    });
-         $('.collapsible').collapsible();
+      $(function () {
+        $.material.init();
+        $(".shor").noUiSlider({
+          start: 40,
+          connect: "lower",
+          range: {
+            min: 0,
+            max: 100
+          }
+        });
 
-         $(".play-button").click(function() {
-  $(this).toggleClass("paused");
-});
+        $(".svert").noUiSlider({
+          orientation: "vertical",
+          start: 40,
+          connect: "lower",
+          range: {
+            min: 0,
+            max: 100
+          }
+        });
       });
     </script>
   </body>
