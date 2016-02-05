@@ -18,17 +18,16 @@
   <body>
     <div class="panel panel-default" id="sidebar">
       <div class="panel-body">
-        <h4>Source</h4>
         <ul class="nav nav-pills nav-stacked">
-          <li class="active"><a class="withripple" href="#">Local Library</a></li>
+          <h4>Source</h4>
+          <li><a class="withripple" data-toggle="pill" href="#local-library">Local Library</a></li>
           <li><a class="withripple" href="#">Spotify</a></li>
           <li><a class="withripple" href="#">Google Play Music</a></li>
           <li><a class="withripple" href="#">Settings</a></li>
-        </ul>
 
-        <h4>Now playing</h4>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a class="withripple" href="#">Playlist</a></li>
+
+          <h4>Now playing</h4>
+          <li class="active"><a class="withripple" href="#playlist" data-toggle="pill">Playlist</a></li>
           <li><a class="withripple" href="#">Track info</a></li>
           <li><a class="withripple" href="#">Lyrics</a></li>
         </ul>
@@ -37,7 +36,110 @@
 
     <div class="panel panel-default" id="content">
       <div class="panel-body">
-        Content
+        <div class="tab-content">
+          <div class="tab-pane active" id="playlist">
+            <table class="table table-striped table-hover fixed">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Artist</th>
+                  <th>Album</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+            </table>
+            <table class="table table-striped table-hover list">
+              <tbody>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+                <tr>
+                  <td>7734</td>
+                  <td>Sabaton</td>
+                  <td>Heroes</td>
+                  <td>3:43</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="tab-pane" id="local-library">Local Libray</div>
+        </div>
       </div>
     </div>
 
@@ -82,16 +184,6 @@
       $(function () {
         $.material.init();
         $(".shor").noUiSlider({
-          start: 40,
-          connect: "lower",
-          range: {
-            min: 0,
-            max: 100
-          }
-        });
-
-        $(".svert").noUiSlider({
-          orientation: "vertical",
           start: 40,
           connect: "lower",
           range: {
