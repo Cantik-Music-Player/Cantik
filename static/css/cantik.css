@@ -12,7 +12,9 @@ html, body{
 
   position: absolute;
   top: 0px;
-  bottom: 75px;
+  bottom: 97px;
+
+  overflow-y: auto;
 }
 
 #content{
@@ -25,7 +27,7 @@ html, body{
   bottom: 75px;
   right: 0px;
 
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 
@@ -104,6 +106,22 @@ html, body{
 }
 
 
+#sidebar ul form input{
+  position: relative;
+  width: 150px;
+  left: 75px;
+  bottom: 75px;
+}
+
+#sidebar ul form button{
+  border: none;
+  background: none;
+}
+
+#sidebar ul form{
+  margin-bottom: -75px;
+}
+
 #sidebar ul{
   margin-bottom: 20px;
 }
@@ -144,4 +162,14 @@ html, body{
   background-size: cover;
   width: 100%;
   padding-bottom: 100%;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+#local-library .cover img{
+  max-width: 100%;
+}
+
+#local-library .cover{
+  margin-right: 20px;
 }
