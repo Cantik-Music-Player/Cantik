@@ -123,3 +123,25 @@ html, body{
 #playlist table.list{
   margin-top: 20px;
 }
+
+
+#local-library .figure{
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-right: 1%;
+
+  width: 15%;
+  cursor: pointer;
+}
+
+#local-library .figure .caption{
+  font-weight: bold;
+  text-align: center;
+}
+
+#local-library .figure .image{
+  background: url(../temp_assets/artist.jpg) 50% 50% no-repeat;
+  background-size: cover;
+  width: 100%;
+  padding-bottom: 100%;
+}
