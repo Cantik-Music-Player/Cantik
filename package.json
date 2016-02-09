@@ -2,9 +2,9 @@
   "name": "cantik",
   "version": "0.0.1",
   "description": "Modern Music Player",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron src/main.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "url": "https://github.com/cyprieng/Cantik---Electron/issues"
   },
   "devDependencies": {
-    "electron-prebuilt": "^0.34.0"
+    "electron-prebuilt": "^0.34.0",
+    "coffee-script": "^1.10.0"
   }
 }

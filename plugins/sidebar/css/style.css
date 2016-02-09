@@ -1,0 +1,16 @@
+#sidebar{
+  width: 250px;
+  margin: 0;
+  padding: 0;
+
+  position: absolute;
+  top: 0px;
+  bottom: 97px;
+
+  overflow-y: auto;
+}
+
+#sidebar h4{
+  font-weight: bold;
+  color: grey;
+}
