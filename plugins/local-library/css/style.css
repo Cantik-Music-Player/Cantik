@@ -1,0 +1,32 @@
+#local-library .figure{
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-left: 1%;
+
+  width: 15%;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#local-library .figure .caption{
+  font-weight: bold;
+  text-align: center;
+}
+
+#local-library .figure .image{
+  background: 50% 50% no-repeat;
+  background-size: cover;
+  width: 100%;
+  padding-bottom: 100%;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
+#local-library .cover img{
+  max-width: 100%;
+}
+
+#local-library .cover{
+  margin-right: 20px;
+}

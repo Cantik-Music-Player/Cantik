@@ -1,0 +1,10 @@
+{
+  "name": "local-library",
+  "version": "0.0.1",
+  "dependencies": {
+    "nedb": "^1.7.4"
+  },
+  "consumedServices": {
+    "central-area": "^0.0.1"
+  }
+}
