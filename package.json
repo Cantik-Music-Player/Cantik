@@ -1,5 +1,6 @@
 {
   "name": "cantik",
+  "productName": "Cantik",
   "version": "0.0.1",
   "description": "Modern Music Player",
   "main": "src/main.js",

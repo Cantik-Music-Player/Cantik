@@ -5,6 +5,7 @@
     "nedb": "^1.7.4"
   },
   "consumedServices": {
-    "central-area": "^0.0.1"
+    "central-area": "^0.0.1",
+    "pouchdb": "^5.2.1"
   }
 }
