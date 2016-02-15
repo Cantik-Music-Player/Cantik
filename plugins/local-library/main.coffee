@@ -25,7 +25,7 @@ class LocalLibrary
 
     # TODO(Use settings)
     @localLibrary = '/media/omnius/Music'
-    #@parseLibrary @localLibrary
+    @parseLibrary @localLibrary
 
   showArtistList: ->
     localLibrary = @
@@ -156,7 +156,10 @@ class LocalLibrary
           if stat.isDirectory()
             @parseLibrary filePath
           else if path.extname(filePath) in ['.ogg', '.flac', '.aac', '.mp3', '.m4a']
-            new Track(filePath, (t) ->
-              t._id = t.path
-              db.put(t)
-              )
+            # Check already ingested
+            db.get(filePath, (err, data) ->
+              if not err and not data
+                new Track(filePath, (t) ->
+                  t._id = t.path
+                  db.put(t)
+                  ))
