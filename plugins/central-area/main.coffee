@@ -9,9 +9,9 @@ class CentralArea
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))
 
-  addPanel: (name, category, content) ->
+  addPanel: (name, category, content, sidebarClick) ->
     # Add label to sidebar
-    @pluginManager.plugins.sidebar.addLink(name, category)
+    @pluginManager.plugins.sidebar.addLink(name, category, sidebarClick)
 
     name = name.replace(' ', '-').toLowerCase()
 

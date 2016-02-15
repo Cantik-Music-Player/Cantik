@@ -9,7 +9,7 @@ class Sidebar
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))
 
-  addLink: (name, category) ->
+  addLink: (name, category, onClick) ->
     # Create category
     $('#sidebar ul').append("<h4 class='#{category}'>#{category}</h4>") if not $("#sidebar ul h4.#{category}").length
 
@@ -28,7 +28,10 @@ class Sidebar
     lastLi = lastLi or $("#sidebar ul h4.#{category}") # Default last li to h4
 
     # Create link
+    element = null
     if $("#sidebar ul li.active").length
-      lastLi.after("<li><a class='withripple' href='#' data-toggle='pill' href='##{name}'>#{name}</a></li>")
+      element = $("<li><a class='withripple' href='#' data-toggle='pill' href='##{name}'>#{name}</a></li>").insertAfter(lastLi)
     else  # Set first link as active
-      lastLi.after("<li class='active'><a class='withripple' href='#' data-toggle='pill' href='##{name}'>#{name}</a></li>")
+      element = $("<li class='active'><a class='withripple' href='#' data-toggle='pill' href='##{name}'>#{name}</a></li>").insertAfter(lastLi)
+
+    element.click(onClick) if onClick?

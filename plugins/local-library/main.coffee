@@ -13,7 +13,12 @@ class LocalLibrary
     # Read html file
     @indexHtml = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     @albumHtml = fs.readFileSync(__dirname + '/html/album.html', 'utf8')
-    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml)
+    @history = @pluginManager.plugins.history
+
+    localLibrary = @
+    history = @history
+    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml, ->
+      do localLibrary.showArtistList)
 
     do @initDB
     do @showArtistList
@@ -24,6 +29,11 @@ class LocalLibrary
 
   showArtistList: ->
     localLibrary = @
+    @history.addHistoryEntry({
+      "plugin": @,
+      "function": "showArtistList",
+      "args": []
+    })
     @element.html(@indexHtml)
     @getArtists (artists) ->
       for artist in artists.sort()
@@ -37,17 +47,22 @@ class LocalLibrary
         localLibrary.showAlbumsList($(this).find('.caption').text()))
 
   getArtists: (callback) ->
-    @db.allDocs({include_docs: true, descending: true}, (err, doc) ->
-      artists = []
-      for row in doc.rows
-        if row.doc.metadata?.artist?
-          for a in row.doc.metadata.artist
-            artists.push(a) if a not in artists
-      callback artists)
+    if not @artists
+      localLibrary = @
+      @db.query('artistcount/artist', {reduce: true, group: true}, (err, results) ->
+        localLibrary.artists = (a.key for a in results.rows)
+        callback localLibrary.artists)
+    else
+      callback @artists
 
   showAlbumsList: (artist) ->
     localLibrary = @
     @element.html(@indexHtml)
+    @history.addHistoryEntry({
+      "plugin": @,
+      "function": "showAlbumsList",
+      "args": [artist]
+    })
     @getAlbums(artist, (albums) ->
       for album in albums.sort()
         Artwork.getAlbumImage(artist, album)
@@ -70,6 +85,11 @@ class LocalLibrary
   showAlbumTracksList: (artist, album) ->
     element = @element
     html = @albumHtml
+    @history.addHistoryEntry({
+      "plugin": @,
+      "function": "showAlbumTracksList",
+      "args": [artist, album]
+    })
     @getAlbumTracks(artist, album, (tracks) ->
       Artwork.getAlbumImage(artist, album)
       element.html(html)
@@ -98,6 +118,15 @@ class LocalLibrary
       views: {
         'artist': {
           map: 'function (doc) { emit(doc.metadata.artist[0]); }'
+        }
+      }
+    })
+    @db.put({
+      _id: '_design/artistcount',
+      views: {
+        'artist': {
+          map: 'function (doc) { emit(doc.metadata.artist[0]); }',
+          reduce: '_count'
         }
       }
     })
