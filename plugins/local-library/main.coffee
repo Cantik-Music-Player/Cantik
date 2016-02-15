@@ -38,8 +38,10 @@ class LocalLibrary
       localLibrary.element.html(localLibrary.indexHtml)
       for artist in artists.sort()
         Artwork.getArtistImage(artist)
+        coverPath = "#{app.getPath('userData')}/images/artists/#{artist}"
+        coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
-          <div class="image" style="background-image: url('#{app.getPath('userData')}/images/artists/#{artist}');"></div>
+          <div class="image" style="background-image: url('#{coverPath}');"></div>
           <div class="caption">#{artist}</div>
         </div>
         """)
@@ -66,8 +68,10 @@ class LocalLibrary
       localLibrary.element.html(localLibrary.indexHtml)
       for album in albums.sort()
         Artwork.getAlbumImage(artist, album)
+        coverPath = "#{app.getPath('userData')}/images/albums/#{artist} - #{album}"
+        coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
-          <div class="image" style="background-image: url('#{app.getPath('userData')}/images/albums/#{artist} - #{album}');"></div>
+          <div class="image" style="background-image: url('#{coverPath}');"></div>
           <div class="caption">#{album}</div>
         </div>
         """)
