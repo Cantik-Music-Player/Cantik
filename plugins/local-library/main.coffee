@@ -34,8 +34,8 @@ class LocalLibrary
       "function": "showArtistList",
       "args": []
     })
-    @element.html(@indexHtml)
     @getArtists (artists) ->
+      localLibrary.element.html(localLibrary.indexHtml)
       for artist in artists.sort()
         Artwork.getArtistImage(artist)
         localLibrary.element.append("""<div class="figure">
@@ -57,13 +57,13 @@ class LocalLibrary
 
   showAlbumsList: (artist) ->
     localLibrary = @
-    @element.html(@indexHtml)
     @history.addHistoryEntry({
       "plugin": @,
       "function": "showAlbumsList",
       "args": [artist]
     })
     @getAlbums(artist, (albums) ->
+      localLibrary.element.html(localLibrary.indexHtml)
       for album in albums.sort()
         Artwork.getAlbumImage(artist, album)
         localLibrary.element.append("""<div class="figure">
