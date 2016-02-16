@@ -27,6 +27,16 @@ class LocalLibrary
     @localLibrary = '/media/omnius/Music'
     @parseLibrary @localLibrary
 
+  reloadMissingimage: (imageUrl) ->
+    @element.find('.figure div.image').each(->
+      elementPath = $(@).css('background-image').replace('url(file://', '')
+      elementPath = decodeURI elementPath.substring(0, elementPath.length - 1)
+      if elementPath == imageUrl
+        console.log "url(file:/"+imageUrl+"adkjhfdskjfhsl)"
+        $(@).css('background-image', "url(file:/#{encodeURIComponent(imageUrl)}?)"))
+
+    @element.find('img.cover').attr('src', "#{imageUrl}?")
+
   showArtistList: ->
     localLibrary = @
     @history.addHistoryEntry({
@@ -37,7 +47,7 @@ class LocalLibrary
     @getArtists (artists) ->
       localLibrary.element.html(localLibrary.indexHtml)
       for artist in artists.sort()
-        Artwork.getArtistImage(artist)
+        Artwork.getArtistImage(artist, localLibrary.reloadMissingimage.bind(localLibrary))
         coverPath = "#{app.getPath('userData')}/images/artists/#{artist}"
         coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
@@ -67,7 +77,7 @@ class LocalLibrary
     @getAlbums(artist, (albums) ->
       localLibrary.element.html(localLibrary.indexHtml)
       for album in albums.sort()
-        Artwork.getAlbumImage(artist, album)
+        Artwork.getAlbumImage(artist, album, localLibrary.reloadMissingimage.bind(localLibrary))
         coverPath = "#{app.getPath('userData')}/images/albums/#{artist} - #{album}"
         coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
@@ -87,6 +97,7 @@ class LocalLibrary
       callback albums)
 
   showAlbumTracksList: (artist, album) ->
+    localLibrary = @
     element = @element
     html = @albumHtml
     @history.addHistoryEntry({
@@ -95,7 +106,7 @@ class LocalLibrary
       "args": [artist, album]
     })
     @getAlbumTracks(artist, album, (tracks) ->
-      Artwork.getAlbumImage(artist, album)
+      Artwork.getAlbumImage(artist, album, localLibrary.reloadMissingimage.bind(localLibrary))
       element.html(html)
       element.find('img.cover').attr("src", "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
       element.find('.title').html("<b>#{album}</b> - #{artist}")

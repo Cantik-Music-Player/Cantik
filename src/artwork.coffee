@@ -11,7 +11,7 @@ discogsClient = new Discogs({
 artistsMem = []
 albumsMem = []
 
-@getArtistImage = (artist) ->
+@getArtistImage = (artist, callback) ->
   if artist not in artistsMem and not fs.existsSync("#{app.getPath('userData')}/images/artists/#{artist}")
     artistsMem.push(artist)
 
@@ -24,10 +24,11 @@ albumsMem = []
           if not err and data.images?
             url = data.images[0].resource_url
             discogsClient.image(url, (err, data, rateLimit) ->
-                fs.writeFile("#{app.getPath('userData')}/images/artists/#{artist}", data, 'binary')
+                fs.writeFile("#{app.getPath('userData')}/images/artists/#{artist}", data, 'binary', ->
+                  callback "#{app.getPath('userData')}/images/artists/#{artist}")
             )))
 
-@getAlbumImage = (artist, album) ->
+@getAlbumImage = (artist, album, callback) ->
   if album not in albumsMem and not fs.existsSync("#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
     albumsMem.push(album)
 
@@ -35,13 +36,11 @@ albumsMem = []
     fs.mkdirSync("#{app.getPath('userData')}/images/albums") if not fs.existsSync("#{app.getPath('userData')}/images/albums")
 
     discogsClient.search(album, {type: 'release', artist: artist}, (err, data) ->
-      console.log(album)
-      console.log(err) if err
-      console.log(data) if data
       if not err and data.results.length > 0
         discogsClient.release(data.results[0].id, (err, data) ->
           if not err and data.images?
             url = data.images[0].resource_url
             discogsClient.image(url, (err, data, rateLimit) ->
-                fs.writeFile("#{app.getPath('userData')}/images/albums/#{artist} - #{album}", data, 'binary')
+                fs.writeFile("#{app.getPath('userData')}/images/albums/#{artist} - #{album}", data, 'binary', ->
+                  callback "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
             )))
