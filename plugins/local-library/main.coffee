@@ -51,7 +51,7 @@ class LocalLibrary
         coverPath = "#{app.getPath('userData')}/images/artists/#{artist}"
         coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
-          <div class="image" style="background-image: url('#{coverPath}');"></div>
+          <div class="fallback-artist"><div class="image" style="background-image: url('#{coverPath}');"></div></div>
           <div class="caption">#{artist}</div>
         </div>
         """)
@@ -81,7 +81,7 @@ class LocalLibrary
         coverPath = "#{app.getPath('userData')}/images/albums/#{artist} - #{album}"
         coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
         localLibrary.element.append("""<div class="figure">
-          <div class="image" style="background-image: url('#{coverPath}');"></div>
+          <div class="fallback-album"><div class="image" style="background-image: url('#{coverPath}');"></div></div>
           <div class="caption">#{album}</div>
         </div>
         """)
@@ -108,7 +108,10 @@ class LocalLibrary
     @getAlbumTracks(artist, album, (tracks) ->
       Artwork.getAlbumImage(artist, album, localLibrary.reloadMissingimage.bind(localLibrary))
       element.html(html)
-      element.find('img.cover').attr("src", "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
+      if fs.existsSync("#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
+        element.find('img.cover').attr("src", "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
+      else
+        element.find('img.cover').attr("src", "../plugins/local-library/images/cd.svg").css('width', '100%')
       element.find('.title').html("<b>#{album}</b> - #{artist}")
       for track in tracks
         element.find('tbody').append("""

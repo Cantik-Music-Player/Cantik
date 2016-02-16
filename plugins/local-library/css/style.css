@@ -9,6 +9,16 @@
   overflow: hidden;
 }
 
+#local-library .fallback-artist{
+  background: 50% 50% url("../images/person.svg");
+  background-size: cover;
+}
+
+#local-library .fallback-album{
+  background: 50% 50% url("../images/cd.svg");
+  background-size: cover;
+}
+
 #local-library .figure .caption{
   font-weight: bold;
   text-align: center;
