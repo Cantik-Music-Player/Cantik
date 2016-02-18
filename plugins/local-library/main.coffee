@@ -115,12 +115,15 @@ class LocalLibrary
       element.find('.title').html("<b>#{album}</b> - #{artist}")
       for track in tracks
         element.find('tbody').append("""
-        <tr>
+        <tr class="#{track.doc.metadata.title}">
           <td>#{track.doc.metadata.track.no}</td>
           <td>#{track.doc.metadata.title}</td>
           <td>#{track.doc.metadata.duration}</td>
         </tr>
-        """))
+        """)
+        do (track = track.doc) ->
+          element.find("tbody tr.#{track.metadata.title}").dblclick(->
+            localLibrary.pluginManager.plugins.playlist.addTrack(track)))
 
   getAlbumTracks: (artist, album, callback) ->
     @db.query('album/album', {key: album, include_docs: true}).then((result) ->

@@ -1,0 +1,9 @@
+#playlist table.fixed{
+  position: fixed;
+  background: white;
+  top: 0px;
+}
+
+#playlist table.list{
+  margin-top: 20px;
+}

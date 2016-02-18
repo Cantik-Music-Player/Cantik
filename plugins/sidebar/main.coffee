@@ -29,7 +29,6 @@ class Sidebar
       lastElement = element # Store last element
 
     lastLi = lastLi or $("#sidebar ul h4.#{normalizedCat}") # Default last li to h4
-    console.log(lastLi)
 
     # Create link
     element = null
