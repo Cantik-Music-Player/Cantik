@@ -11,13 +11,14 @@ class CentralArea
 
   addPanel: (name, category, content, sidebarClick) ->
     # Add label to sidebar
-    @pluginManager.plugins.sidebar.addLink(name, category, sidebarClick)
+    active = @pluginManager.plugins.sidebar.addLink(name, category, sidebarClick)
 
     name = name.replace(' ', '-').toLowerCase()
 
     # Add div
-    $("#content").append("<div class='tab-pane' id='#{name}'></div>")
-    $("#content ##{name}").html($.parseHTML(content))
+    active = if active then "active" else ""
+    $("#content .panel-body .tab-content").append("<div class='tab-pane #{active}' id='#{name}'></div>")
+    $("#content .panel-body .tab-content ##{name}").html($.parseHTML(content))
 
     #Return element
-    $("#content ##{name}")
+    $("#content .panel-body .tab-content ##{name}")
