@@ -90,7 +90,7 @@ class LocalLibrary
 
   getAlbums: (artist, callback) ->
     @db.query('artist/artist', {key: artist, include_docs: true}).then((result) ->
-      albums = []
+      albums = ["All tracks"]
       for row in result.rows
         if row.doc.metadata?.album?
           albums.push(row.doc.metadata.album) if row.doc.metadata.album not in albums
@@ -121,16 +121,20 @@ class LocalLibrary
           <td>#{track.doc.metadata.duration}</td>
         </tr>
         """)
-        do (track = track.doc) ->
-          element.find("tbody tr.#{track.metadata.title}").dblclick(->
-            localLibrary.pluginManager.plugins.playlist.addTrack(track)))
+      element.find('tbody tr').dblclick(->
+        localLibrary.pluginManager.plugins.playlist.cleanPlaylist()
+        localLibrary.pluginManager.plugins.playlist.addTracks(t.doc for t in tracks)))
 
   getAlbumTracks: (artist, album, callback) ->
-    @db.query('album/album', {key: album, include_docs: true}).then((result) ->
-      tracks = []
-      for row in result.rows
-        tracks.push(row) if row.doc.metadata?.artist? and row.doc.metadata.artist[0] is artist
-      callback tracks)
+    if album is "All tracks"
+      @db.query('artist/artist', {key: artist, include_docs: true}).then((result) ->
+        callback result.rows)
+    else
+      @db.query('album/album', {key: album, include_docs: true}).then((result) ->
+        tracks = []
+        for row in result.rows
+          tracks.push(row) if row.doc.metadata?.artist? and row.doc.metadata.artist[0] is artist
+        callback tracks)
 
   initDB: ->
     @db = new PouchDB('library')

@@ -64,14 +64,22 @@ class Player
         $("#player audio")[0].muted = true
         $(@).find('i').text("volume_mute"))
 
+    # End of track
+    $("#player audio").on("ended", ->
+      do player.next)
+
   getLastTrack: ->
+    @pluginManager.plugins.playlist.getLastTrack.bind(@pluginManager.plugins.playlist)()
 
   getNextTrack: ->
+    @pluginManager.plugins.playlist.getNextTrack.bind(@pluginManager.plugins.playlist)()
 
-  playTrack: (url) ->
-    if url?
-      $("#player audio").html("<source src='#{url}'>")
+  playTrack: (track) ->
+    if track?
+      $("#player audio").html("<source src='#{track.path}'>")
       $("#player audio")[0].load()
+      $("#player .track-artist .title").text("#{track.metadata.title}")
+      $("#player .track-artist .artist").text("#{track.metadata.artist[0]}")
     $("#player audio")[0].play()
     $("#player .play").text("pause")
 

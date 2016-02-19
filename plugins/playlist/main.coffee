@@ -14,10 +14,12 @@ class Playlist
 
     @element = @pluginManager.plugins.centralarea.addPanel('Playlist', 'Now Playing', html)
     @trackList = []
+    @trackIndex = -1
+    @random = false
+    @repeat = null
 
   addTrack: (track) ->
     @trackList.push(track)
-    console.log track
     @element.find('table.list').append("""
     <tr>
       <td>#{track.metadata.title}</td>
@@ -26,3 +28,25 @@ class Playlist
       <td>#{track.metadata.duration}</td>
     </tr>
     """)
+
+  addTracks: (tracks) ->
+    @addTrack t for t in tracks
+
+  cleanPlaylist: ->
+    @element.find('table.list').html("")
+    @trackList = []
+    @trackIndex = -1
+
+  getNextTrack: ->
+    if not @random
+      @trackIndex++
+      @element.find('table.list tr').removeClass("info")
+      $(@element.find('table.list tr')[@trackIndex]).addClass("info")
+      @trackList[@trackIndex]
+
+  getLastTrack: ->
+    if not @random
+      @trackIndex--
+      @element.find('table.list tr').removeClass("info")
+      $(@element.find('table.list tr')[@trackIndex]).addClass("info")
+      @trackList[@trackIndex]
