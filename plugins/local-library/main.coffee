@@ -123,7 +123,8 @@ class LocalLibrary
         """)
       element.find('tbody tr').dblclick(->
         localLibrary.pluginManager.plugins.playlist.cleanPlaylist()
-        localLibrary.pluginManager.plugins.playlist.addTracks(t.doc for t in tracks)))
+        localLibrary.pluginManager.plugins.playlist.addTracks(t.doc for t in tracks)
+        localLibrary.pluginManager.plugins.player.next()))
 
   getAlbumTracks: (artist, album, callback) ->
     if album is "All tracks"

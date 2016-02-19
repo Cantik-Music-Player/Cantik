@@ -7,6 +7,7 @@
   "consumedServices": {
     "central-area": "^0.0.1",
     "history": "^0.0.1",
-    "playlist": "^0.0.1"
+    "playlist": "^0.0.1",
+    "player": "^0.0.1"
   }
 }
