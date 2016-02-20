@@ -76,21 +76,39 @@ class LocalLibrary
     })
     @getAlbums(artist, (albums) ->
       localLibrary.element.html(localLibrary.indexHtml)
+      covers = []
       for album in albums.sort()
         Artwork.getAlbumImage(artist, album, localLibrary.reloadMissingimage.bind(localLibrary))
         coverPath = "#{app.getPath('userData')}/images/albums/#{artist} - #{album}"
         coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
+        covers.push(coverPath)
         localLibrary.element.append("""<div class="figure">
           <div class="fallback-album"><div class="image" style="background-image: url('#{coverPath}');"></div></div>
           <div class="caption">#{album}</div>
         </div>
         """)
+
+      # All tracks
+      localLibrary.element.prepend("""<div class="figure">
+        <div class="fallback-album"><div class="image-composite"></div></div>
+        <div class="caption">All tracks</div>
+      </div>
+      """)
+      i = 0
+      for cover in covers
+        if fs.existsSync(cover)
+          i++
+          localLibrary.element.find('div.figure .image-composite').append("<img src='#{cover}'/>")
+          if i == 4
+            break
+
+      # Click event
       localLibrary.element.find('div.figure').click(->
         localLibrary.showAlbumTracksList(artist, $(this).find('.caption').text())))
 
   getAlbums: (artist, callback) ->
     @db.query('artist/artist', {key: artist, include_docs: true}).then((result) ->
-      albums = ["All tracks"]
+      albums = []
       for row in result.rows
         if row.doc.metadata?.album?
           albums.push(row.doc.metadata.album) if row.doc.metadata.album not in albums
