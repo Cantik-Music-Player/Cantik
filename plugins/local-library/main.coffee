@@ -126,6 +126,7 @@ class LocalLibrary
     @getAlbumTracks(artist, album, (tracks) ->
       Artwork.getAlbumImage(artist, album, localLibrary.reloadMissingimage.bind(localLibrary))
       element.html(html)
+      element.find('.album-background').css("background-image", "url('#{app.getPath('userData')}/images/albums/#{artist} - #{album}')")
       if fs.existsSync("#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
         element.find('img.cover').attr("src", "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
       else

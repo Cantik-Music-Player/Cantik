@@ -12,3 +12,11 @@
 
   background: #eee;
 }
+
+#content .panel-body,
+#content .tab-content{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
