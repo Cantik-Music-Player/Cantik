@@ -29,7 +29,8 @@
   margin-top: 2px;
 }
 
-#local-library .figure .image{
+#local-library .figure .image,
+#local-library .figure .image-composite{
   background: 50% 50% no-repeat;
   background-size: cover;
   width: 100%;
@@ -40,7 +41,8 @@
   transition: box-shadow 0.28s cubic-bezier(0.4,0,0.2,1);
 }
 
-#local-library .figure .image:hover {
+#local-library .figure .image:hover,
+#local-library .figure .image-composite:hover{
   box-shadow:0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3)
 }
 
@@ -53,18 +55,36 @@
 }
 
 #local-library .figure .image-composite{
-  height: 100%;
+  padding-bottom: 100%;
   width: 100%;
-  border: 1px solid grey;
-  border-radius: 50%;
   overflow: hidden;
-}
-
-#local-library .image-composite{
   white-space: normal;
+  position: relative;
+  background: black;
 }
 
-#local-library .image-composite img{
-  width: 50%;
-  height: 50%;
+#local-library .image-composite img:nth-child(1){
+  width: 60%;
+  position: absolute;
+}
+
+#local-library .image-composite img:nth-child(2){
+  width: 60%;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+}
+
+#local-library .image-composite img:nth-child(3){
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+}
+
+#local-library .image-composite img:nth-child(4){
+  width: 60%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }
