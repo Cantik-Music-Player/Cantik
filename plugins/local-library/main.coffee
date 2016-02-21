@@ -136,17 +136,20 @@ class LocalLibrary
       else
         element.find('img.cover').attr("src", "../plugins/local-library/images/cd.svg").css('width', '100%')
       element.find('.title').html("<b>#{album}</b> - #{artist}")
+      i = 0
       for track in tracks
         element.find('tbody').append("""
-        <tr class="#{track.doc.metadata.title}">
+        <tr class="#{i}">
           <td>#{track.doc.metadata.track.no}</td>
           <td>#{track.doc.metadata.title}</td>
           <td>#{track.doc.metadata.duration}</td>
         </tr>
         """)
+        i++
       element.find('tbody tr').dblclick(->
         localLibrary.pluginManager.plugins.playlist.cleanPlaylist()
         localLibrary.pluginManager.plugins.playlist.addTracks(t.doc for t in tracks)
+        localLibrary.pluginManager.plugins.playlist.trackIndex = parseInt($(@).attr('class')) - 1
         localLibrary.pluginManager.plugins.player.next()))
 
   getAlbumTracks: (artist, album, callback) ->
