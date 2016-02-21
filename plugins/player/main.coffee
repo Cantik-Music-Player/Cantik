@@ -70,15 +70,34 @@ class Player
       random = not player.pluginManager.plugins.playlist.random
       player.pluginManager.plugins.playlist.setRandom random)
 
-    @pluginManager.plugins.playlist.on('randomchange', ->
-      if player.pluginManager.plugins.playlist.random
+    @pluginManager.plugins.playlist.on('randomchange', (random) ->
+      if random
         $("#player .random").addClass('active')
       else
         $("#player .random").removeClass('active'))
 
+    # Repeat button
+    $("#player .repeat").click(->
+      do player.pluginManager.plugins.playlist.switchRepeatState)
+
+    @pluginManager.plugins.playlist.on('repeatchange', (repeat) ->
+      if repeat is null
+        $("#player .repeat").removeClass('active')
+        $("#player .repeat i").text('repeat')
+      else if repeat is "all"
+        $("#player .repeat").addClass('active')
+        $("#player .repeat i").text('repeat')
+      else
+        $("#player .repeat").addClass('active')
+        $("#player .repeat i").text('repeat_one'))
+
     # End of track
     $("#player audio").on("ended", ->
-      do player.next)
+      if player.pluginManager.plugins.playlist.repeat is "one"
+        $("#player audio")[0].currentTime = 0
+        $("#player audio")[0].play()
+      else
+        do player.next)
 
   getLastTrack: ->
     @pluginManager.plugins.playlist.getLastTrack.bind(@pluginManager.plugins.playlist)()

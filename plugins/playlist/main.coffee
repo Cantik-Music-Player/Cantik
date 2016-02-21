@@ -23,12 +23,19 @@ class Playlist
     @repeat = null
 
   setRandom: (randomState) ->
+    @trackListPlayed = [@trackList[@trackIndex]]
+    @trackPlayedIndex = 0
     @random = randomState
     @emit('randomchange', randomState)
 
-  setRepeat: (repeatState) ->
-    @repeat = randomState
-    @emit('repeatchange', repeatState)
+  switchRepeatState: ->
+    if @repeat is null
+      @repeat = 'all'
+    else if @repeat is 'all'
+      @repeat = 'one'
+    else
+      @repeat = null
+    @emit('repeatchange', @repeat)
 
   addTrack: (track) ->
     @trackList.push(track)
@@ -59,13 +66,20 @@ class Playlist
         @trackIndex++
         @trackListPlayed.push(@trackList[@trackIndex])
         @trackPlayedIndex = @trackListPlayed.length - 1
-    else if @trackListPlayed.length < @trackList.length
-      while true
-        @trackIndex = Math.floor(Math.random() * @trackList.length);
-        break if @trackList[@trackIndex] not in @trackListPlayed
+      else if @repeat is 'all'
+        @trackIndex = 0
+        @trackListPlayed = [@trackList[@trackIndex]]
+        @trackPlayedIndex = 0
+    else
+      if @repeat is 'all' and @trackListPlayed.length is @trackList.length
+        @trackListPlayed = []
+      if @trackListPlayed.length < @trackList.length
+        while true
+          @trackIndex = Math.floor(Math.random() * @trackList.length);
+          break if @trackList[@trackIndex] not in @trackListPlayed
 
-      @trackListPlayed.push(@trackList[@trackIndex])
-      @trackPlayedIndex = @trackListPlayed.length - 1
+        @trackListPlayed.push(@trackList[@trackIndex])
+        @trackPlayedIndex = @trackListPlayed.length - 1
 
     @element.find('table.list tr').removeClass("info")
     $(@element.find('table.list tr')[@trackIndex]).addClass("info")
