@@ -15,6 +15,8 @@ class LocalLibrary
     @albumHtml = fs.readFileSync(__dirname + '/html/album.html', 'utf8')
     @history = @pluginManager.plugins.history
 
+    @loading = false
+
     localLibrary = @
     history = @history
     @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml, ->
@@ -38,25 +40,28 @@ class LocalLibrary
     @element.find('img.cover').attr('src', "#{imageUrl}?")
 
   showArtistList: ->
-    localLibrary = @
-    @history.addHistoryEntry({
-      "plugin": @,
-      "function": "showArtistList",
-      "args": []
-    })
-    @getArtists (artists) ->
-      localLibrary.element.html(localLibrary.indexHtml)
-      for artist in artists.sort()
-        Artwork.getArtistImage(artist, localLibrary.reloadMissingimage.bind(localLibrary))
-        coverPath = "#{app.getPath('userData')}/images/artists/#{artist}"
-        coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
-        localLibrary.element.append("""<div class="figure">
-          <div class="fallback-artist"><div class="image" style="background-image: url('#{coverPath}');"></div></div>
-          <div class="caption">#{artist}</div>
-        </div>
-        """)
-      localLibrary.element.find('div.figure').click(->
-        localLibrary.showAlbumsList($(this).find('.caption').text()))
+    if not @loading
+      @loading = true
+      localLibrary = @
+      @history.addHistoryEntry({
+        "plugin": @,
+        "function": "showArtistList",
+        "args": []
+      })
+      @getArtists (artists) ->
+        localLibrary.element.html(localLibrary.indexHtml)
+        for artist in artists.sort()
+          Artwork.getArtistImage(artist, localLibrary.reloadMissingimage.bind(localLibrary))
+          coverPath = "#{app.getPath('userData')}/images/artists/#{artist}"
+          coverPath = coverPath.replace('"', '\\"').replace("'", "\\'")
+          localLibrary.element.append("""<div class="figure">
+            <div class="fallback-artist"><div class="image" style="background-image: url('#{coverPath}');"></div></div>
+            <div class="caption">#{artist}</div>
+          </div>
+          """)
+        localLibrary.element.find('div.figure').click(->
+          localLibrary.showAlbumsList($(this).find('.caption').text()))
+        localLibrary.loading = false
 
   getArtists: (callback) ->
     if not @artists
