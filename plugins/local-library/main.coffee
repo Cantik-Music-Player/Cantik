@@ -19,8 +19,7 @@ class LocalLibrary
 
     localLibrary = @
     history = @history
-    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml, ->
-      do localLibrary.showArtistList)
+    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml, localLibrary.showArtistList, true)
 
     do @initDB
     do @showArtistList

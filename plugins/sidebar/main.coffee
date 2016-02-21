@@ -9,7 +9,7 @@ class Sidebar
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))
 
-  addLink: (name, category, onClick) ->
+  addLink: (name, category, onClick, forceActive) ->
     normalizedName = name.replace(' ', '-').toLowerCase()
     normalizedCat = category.replace(' ', '-').toLowerCase()
 
@@ -33,9 +33,10 @@ class Sidebar
     # Create link
     element = null
     active = false
-    if $("#sidebar ul li.active").length
+    if $("#sidebar ul li.active").length and not forceActive
       element = $("<li><a class='withripple' data-toggle='pill' href='##{normalizedName}'>#{name}</a></li>").insertAfter(lastLi)
     else  # Set first link as active
+      $('#sidebar ul li').removeClass('active')
       element = $("<li class='active'><a class='withripple' data-toggle='pill' href='##{normalizedName}'>#{name}</a></li>").insertAfter(lastLi)
       active = true
 
