@@ -9,6 +9,8 @@ class Player
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))
 
+    player = @
+
     # Set play function
     $("#player .previous").click(@back.bind(@))
     $("#player .play").click(@play.bind(@))
@@ -41,7 +43,6 @@ class Player
       $("#player audio")[0].volume = @.get())
 
     # Event time change
-    player = @
     $("#player audio").on("timeupdate", ->
       $("#player .elapsed-time").text(player.currentTime())
       $("#player .progressbar")[0].noUiSlider.set(@.currentTime))
@@ -63,6 +64,17 @@ class Player
       else
         $("#player audio")[0].muted = true
         $(@).find('i').text("volume_mute"))
+
+    # Random button
+    $("#player .random").click(->
+      random = not player.pluginManager.plugins.playlist.random
+      player.pluginManager.plugins.playlist.setRandom random)
+
+    @pluginManager.plugins.playlist.on('randomchange', ->
+      if player.pluginManager.plugins.playlist.random
+        $("#player .random").addClass('active')
+      else
+        $("#player .random").removeClass('active'))
 
     # End of track
     $("#player audio").on("ended", ->
