@@ -60,6 +60,7 @@ class LocalLibrary
         localLibrary.element.find('div.figure').click(->
           localLibrary.showAlbumsList($(this).find('.caption').text()))
         localLibrary.loading = false
+        true  # Return true to be sure not to stop the event propagation
 
   getArtists: (callback) ->
     if not @artists
