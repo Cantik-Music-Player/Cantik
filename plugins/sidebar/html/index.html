@@ -1,7 +1,10 @@
 <div class="panel-body">
   <ul class="nav nav-pills nav-stacked">
-    {{test}}
-    <h4 *ngFor="#cat of categories" class="">{{cat.title}}</h4>
-    <li *ngFor="#item of links"><a class="withripple" data-toggle="pill" href="#">{{item.text}}</a></li>
+    <div *ngFor="#cat of listCategories()">
+      <h4>{{cat}}</h4>
+      <li *ngFor="#link of listLinks(cat)">
+        <a class="withripple" data-toggle="pill" href="#">{{link}}</a>
+      </li>
+    </div>
   </ul>
 </div>

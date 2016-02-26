@@ -1,7 +1,0 @@
-{
-  "name": "playlist",
-  "version": "0.0.1",
-  "consumedServices": {
-    "central-area": "^0.0.1"
-  }
-}
