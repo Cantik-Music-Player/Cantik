@@ -1,0 +1,22 @@
+#content{
+  margin: 0;
+  padding: 0;
+
+  position: absolute;
+  top: 0px;
+  left: 250px;
+  bottom: 97px;
+  right: 0px;
+
+  overflow-y: auto;
+
+  background: #eee;
+}
+
+#content .panel-body,
+#content .tab-content{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}

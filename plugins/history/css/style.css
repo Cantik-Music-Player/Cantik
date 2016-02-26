@@ -1,0 +1,8 @@
+#sidebar ul button{
+  border: none;
+  background: none;
+}
+
+#sidebar ul div{
+  display: inline;
+}

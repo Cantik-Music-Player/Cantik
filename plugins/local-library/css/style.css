@@ -1,0 +1,123 @@
+#local-library{
+  margin: 0;
+  padding: 0;
+  position: relative;
+  min-height: 100%;
+}
+
+#local-library .figure{
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  padding: 2px;
+
+  width: 13%;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#local-library .fallback-artist{
+  background: 50% 50% url("../images/person.svg");
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+#local-library .fallback-album{
+  background: 50% 50% url("../images/cd.svg");
+  background-size: cover;
+}
+
+#local-library .figure .caption{
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2px;
+}
+
+#local-library .figure .image,
+#local-library .figure .image-composite{
+  background: 50% 50% no-repeat;
+  background-size: cover;
+  width: 100%;
+  padding-bottom: 100%;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.37);
+  transition: box-shadow 0.28s cubic-bezier(0.4,0,0.2,1);
+}
+
+#local-library .figure .image:hover,
+#local-library .figure .image-composite:hover{
+  box-shadow:0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3)
+}
+
+#local-library .figure .image-composite{
+  padding-bottom: 100%;
+  width: 100%;
+  overflow: hidden;
+  white-space: normal;
+  position: relative;
+  background: black;
+}
+
+#local-library .image-composite img:nth-child(1){
+  width: 60%;
+  position: absolute;
+}
+
+#local-library .image-composite img:nth-child(2){
+  width: 60%;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+}
+
+#local-library .image-composite img:nth-child(3){
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 0px;
+}
+
+#local-library .image-composite img:nth-child(4){
+  width: 60%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+/*Album view*/
+#local-library .album-background{
+  position: absolute;
+  top: -30px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-filter: blur(5px);
+  margin: 0;
+}
+
+#local-library .album-container{
+  width: 70%;
+  margin: auto;
+  background: white;
+  margin-bottom: 0;
+  margin-top: 30px;
+  padding: 10px;
+  position: relative;
+}
+
+#local-library .cover img{
+  max-width: 33%;
+  float: left;
+}
+
+#local-library .cover{
+  margin-right: 20px;
+  margin-bottom: 20px;
+}

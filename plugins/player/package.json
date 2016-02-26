@@ -1,0 +1,7 @@
+{
+  "name": "player",
+  "version": "0.0.1",
+  "consumedServices": {
+    "playlist": "^0.0.1"
+  }
+}
