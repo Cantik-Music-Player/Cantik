@@ -8,8 +8,6 @@ path = require('path')
 module.exports =
 class LocalLibrary
   constructor: (@pluginManager) ->
-    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', __dirname + '/css/style.css'))
-
     # Read html file
     @indexHtml = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     @albumHtml = fs.readFileSync(__dirname + '/html/album.html', 'utf8')

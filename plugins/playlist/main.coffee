@@ -7,8 +7,6 @@ class Playlist
   constructor: (@pluginManager) ->
     events.EventEmitter.call(this)
 
-    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', __dirname + '/css/style.css'))
-
     # Read html file
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     @history = @pluginManager.plugins.history

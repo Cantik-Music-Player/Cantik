@@ -3,8 +3,6 @@ fs = require('fs')
 module.exports =
 class Sidebar
   constructor: ->
-    $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', __dirname + '/css/style.css'))
-
     # Read html file
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))

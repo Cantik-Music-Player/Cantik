@@ -14,30 +14,37 @@ class PluginManager
     # Get the plugins
     for file in files
         if file[0] != '.'
-            filePath = "#{@pluginsBasePath}/#{file}"
-            stat = fs.statSync(filePath)
+          filePath = "#{@pluginsBasePath}/#{file}"
+          if fs.statSync(filePath).isDirectory() and not @plugins[@sanitizePluginName path.basename(filePath)]?
+            @loadPlugin filePath
 
-            # Load plugin
-            if stat.isDirectory() and not @plugins[@sanitizePluginName path.basename(filePath)]?
-              # Load dependencies
-              @loadPluginDepedencies(filePath)
-              try
-                TempPlugin = require(filePath + '/main')
-                @plugins[@sanitizePluginName path.basename(filePath)] = new TempPlugin(@)
-                @loadKeymap(filePath, @plugins[@sanitizePluginName path.basename(filePath)])
-              catch error
-                console.error("Cannot load #{filePath} plugin: #{error}")
+  loadPlugin: (pluginPath) ->
+    @loadPluginDepedencies(pluginPath)
+    try
+      TempPlugin = require(pluginPath + '/main')
+      @loadPluginCss "#{pluginPath}/css/"
+      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(@)
+      @loadKeymap(pluginPath, @plugins[@sanitizePluginName path.basename(pluginPath)])
+    catch error
+      console.error("Cannot load #{pluginPath} plugin: #{error}")
+
+  loadPluginCss: (cssFolder) ->
+    if fs.statSync(cssFolder).isDirectory()
+      files = fs.readdirSync(cssFolder)
+      for file in files
+          if file[0] != '.'
+            cssPath = "#{cssFolder}/#{file}"
+            if fs.statSync(cssPath).isDirectory()
+              @loadPluginCss cssPath
+            else
+              $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
 
   loadPluginDepedencies: (pluginPath) ->
     dependencies = @loadPackageJSON(pluginPath).consumedServices ? {}
     for dep, depVersion of dependencies
       try
         depPath = "#{@pluginsBasePath}/#{dep}"
-        if not @plugins[@sanitizePluginName path.basename(depPath)]?
-          @loadPluginDepedencies(depPath)
-          TempPlugin = require(depPath + '/main')
-          @plugins[@sanitizePluginName path.basename(depPath)] = new TempPlugin(@)
-          @loadKeymap(depPath, @plugins[@sanitizePluginName path.basename(depPath)])
+        @loadPlugin depPath if not @plugins[@sanitizePluginName path.basename(depPath)]?
       catch
         console.error("Unable to load dependency #{dep}")
 

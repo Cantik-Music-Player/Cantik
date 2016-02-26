@@ -3,8 +3,6 @@ fs = require('fs')
 module.exports =
 class CentralArea
   constructor: (@pluginManager) ->
-    $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', __dirname + '/css/style.css'))
-
     # Read html file
     html = fs.readFileSync(__dirname + '/html/index.html', 'utf8')
     $('body').append($.parseHTML(html))
@@ -20,7 +18,7 @@ class CentralArea
 
     if active is "active"
       $("#content .panel-body .tab-content .tab-pane").removeClass('active')
-      
+
     $("#content .panel-body .tab-content").append("<div class='tab-pane #{active}' id='#{name}'></div>")
     $("#content .panel-body .tab-content ##{name}").html($.parseHTML(content))
 
