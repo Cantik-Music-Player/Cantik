@@ -31,6 +31,7 @@
 
     <script>
       $(function () {
+        require('coffee-react/register');
         require('coffee-script/register');
 
         // Load plugin manager
@@ -38,6 +39,11 @@
         var pluginManager = new PluginManager();
 
         $.material.init();
+
+        // Update material
+        Arrive.register_element($('.withripple'), function (elem) {
+          $.material.init();
+        });
       });
     </script>
   </body>

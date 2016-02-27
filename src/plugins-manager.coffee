@@ -23,7 +23,8 @@ class PluginManager
     try
       TempPlugin = require(pluginPath + '/main')
       @loadPluginCss "#{pluginPath}/css/"
-      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(@)
+      element = @createDOMElement pluginPath
+      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(@, element)
       @loadKeymap(pluginPath, @plugins[@sanitizePluginName path.basename(pluginPath)])
     catch error
       console.error("Cannot load #{pluginPath} plugin: #{error}")
@@ -39,14 +40,17 @@ class PluginManager
             else
               $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
 
+  createDOMElement: (pluginPath) ->
+    parentSelector = @loadPackageJSON(pluginPath).DOMContainer
+    if parentSelector?
+      elementId = "plugin-#{path.basename(pluginPath)}"
+      $("<div id='#{elementId}'></div>").appendTo(parentSelector)[0]
+
   loadPluginDepedencies: (pluginPath) ->
     dependencies = @loadPackageJSON(pluginPath).consumedServices ? {}
     for dep, depVersion of dependencies
-      try
-        depPath = "#{@pluginsBasePath}/#{dep}"
-        @loadPlugin depPath if not @plugins[@sanitizePluginName path.basename(depPath)]?
-      catch
-        console.error("Unable to load dependency #{dep}")
+      depPath = "#{@pluginsBasePath}/#{dep}"
+      @loadPlugin depPath if not @plugins[@sanitizePluginName path.basename(depPath)]?
 
   loadKeymap: (pluginPath, plugin) ->
     if fs.existsSync("#{pluginPath}/keymap.json")
