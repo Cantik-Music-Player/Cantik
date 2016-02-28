@@ -2,7 +2,7 @@ React = require('react')
 ReactDOM = require('react-dom')
 normalizeString = require('../../src/utils').normalizeString
 
-module.exports=
+module.exports.SidebarComponent=
 class SidebarComponent extends React.Component
   constructor: ->
     @.props = {'links': {}}
@@ -27,3 +27,9 @@ class SidebarComponent extends React.Component
         </ul>
       </div>
     </div>
+
+module.exports.show = (links, element) ->
+  ReactDOM.render(
+    <SidebarComponent links=links />,
+    element
+  )

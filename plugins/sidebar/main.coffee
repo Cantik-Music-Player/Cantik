@@ -1,7 +1,7 @@
 fs = require('fs')
-React = require('react')
-ReactDOM = require('react-dom')
-SidebarComponent = require('./view.cjsx')
+require('coffee-react/register')
+SidebarComponent = require('./view.cjsx').SidebarComponent
+showSidebar = require('./view.cjsx').show
 
 module.exports =
 class Sidebar
@@ -10,10 +10,7 @@ class Sidebar
     do @show
 
   show: ->
-    ReactDOM.render(
-      <SidebarComponent links=@links />,
-      @element
-    )
+    showSidebar(@links, @element)
 
   addLink: (name, category, onClick, active) ->
     @links[category] = [] if category not in Object.keys(@links)

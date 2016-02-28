@@ -26,5 +26,6 @@
     "coffee-react": "^2.0.0",
     "react": "^0.13.2",
     "react-dom": "^0.14.7",
+    "jasmine-node": "^1.14.5"
   }
 }
