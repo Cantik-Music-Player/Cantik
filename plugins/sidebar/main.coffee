@@ -1,5 +1,4 @@
-fs = require('fs')
-require('coffee-react/register')
+require 'coffee-react/register'
 SidebarComponent = require('./view.cjsx').SidebarComponent
 showSidebar = require('./view.cjsx').show
 

@@ -1,13 +1,15 @@
 Sidebar = require '../main'
+sinon = require 'sinon'
+assert = require 'assert'
 
 describe "Sidebar", ->
   beforeEach ->
-    spyOn(Sidebar.prototype, 'show')
+    Sidebar.prototype.show = sinon.spy()
     @sidebar = new Sidebar('pluginManager', 'element')
 
   it "Initialized", ->
-    expect(@sidebar.links).toEqual({})
-    expect(Sidebar.prototype.show).toHaveBeenCalled()
+    assert.deepEqual(@sidebar.links, {})
+    assert(Sidebar.prototype.show.called)
 
   it "Add link", ->
     @sidebar.addLink('test1', 'cat1', 'func4', true)
@@ -15,7 +17,7 @@ describe "Sidebar", ->
     @sidebar.addLink('test3', 'cat1', 'func2', false)
     @sidebar.addLink('test4', 'cat2', 'func1', false)
 
-    expect(@sidebar.links).toEqual({
+    assert.deepEqual(@sidebar.links, {
       "cat1": [{
           "title": "test1",
           "onClick": "func4",
