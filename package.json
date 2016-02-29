@@ -6,7 +6,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "test": "mocha --compilers coffee:coffee-script/register plugins/**/spec/*-spec.coffee"
+    "test": "mocha --timeout 200000 --compilers coffee:coffee-script/register plugins/**/spec/*-spec.coffee"
   },
   "repository": {
     "type": "git",
