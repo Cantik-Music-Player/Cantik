@@ -1,10 +1,9 @@
-jsdom = require('mocha-jsdom')
-React = require('react')
-TestUtils= require('react/addons').addons.TestUtils
-require('coffee-react/register')
+require 'coffee-react/register'
 SidebarComponent = require('../view.cjsx').SidebarComponent
 showSidebar = require('../view.cjsx').show
+
 assert = require 'assert'
+jsdom = require 'mocha-jsdom'
 
 describe "Sidebar Component", ->
   jsdom()
