@@ -19,7 +19,10 @@ app.on('ready', function() {
   window.setMenu(null);
   window.loadUrl('file://' + __dirname + '/../static/index.html');
 
-  window.webContents.openDevTools();
+  // If "dev" in command line args open the dev tools
+  if(process.argv.indexOf('dev') > -1){
+    window.webContents.openDevTools();
+  }
 
   // Emitted when the window is closed.
   window.on('closed', function() {
