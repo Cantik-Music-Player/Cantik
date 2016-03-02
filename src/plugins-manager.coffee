@@ -41,10 +41,15 @@ class PluginManager
               $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
 
   createDOMElement: (pluginPath) ->
-    parentSelector = @loadPackageJSON(pluginPath).DOMContainer
+    packagejson = @loadPackageJSON(pluginPath)
+    parentSelector = packagejson.DOMContainer
     if parentSelector?
       elementId = "plugin-#{path.basename(pluginPath)}"
-      $("<div id='#{elementId}'></div>").appendTo(parentSelector)[0]
+
+      if packagejson.DOMOrder is "before"
+        $("<div id='#{elementId}'></div>").prependTo(parentSelector)[0]
+      else
+        $("<div id='#{elementId}'></div>").appendTo(parentSelector)[0]
 
   loadPluginDepedencies: (pluginPath) ->
     dependencies = @loadPackageJSON(pluginPath).consumedServices ? {}

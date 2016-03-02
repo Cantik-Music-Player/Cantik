@@ -1,8 +1,8 @@
-#sidebar ul button{
+#sidebar .history button{
   border: none;
   background: none;
 }
 
-#sidebar ul div{
+#sidebar .history div{
   display: inline;
 }
