@@ -40,8 +40,7 @@ class LocalLibrary
       @loading = true
       localLibrary = @
       @history.addHistoryEntry({
-        "plugin": @,
-        "function": "showArtistList",
+        "function": @showArtistList.bind(@),
         "args": []
       })
       @getArtists (artists) ->
@@ -72,8 +71,7 @@ class LocalLibrary
   showAlbumsList: (artist) ->
     localLibrary = @
     @history.addHistoryEntry({
-      "plugin": @,
-      "function": "showAlbumsList",
+      "function": @showAlbumsList.bind(@),
       "args": [artist]
     })
     @getAlbums(artist, (albums) ->
@@ -121,8 +119,7 @@ class LocalLibrary
     element = @element
     html = @albumHtml
     @history.addHistoryEntry({
-      "plugin": @,
-      "function": "showAlbumTracksList",
+      "function": @showAlbumTracksList.bind(@),
       "args": [artist, album]
     })
     @getAlbumTracks(artist, album, (tracks) ->

@@ -1,3 +1,4 @@
+require 'coffee-react/register'
 HistoryComponent = require('./view.cjsx').HistoryComponent
 showHistory = require('./view.cjsx').show
 
@@ -12,6 +13,11 @@ class History
   show: ->
     showHistory(@, @element)
 
+  # Add an entry to the history
+  # Format {
+  #         function: function,
+  #         args: list of args
+  # }
   addHistoryEntry: (entry) ->
     if not @avoidNewEntry
       @history = @history[0..@historyIndex]
@@ -23,10 +29,10 @@ class History
     @avoidNewEntry = true
     try
       entry = @history[index]
-      entry.plugin[entry.function] entry.args...
+      entry.function entry.args...
       @historyIndex = index
     catch error
-      console.log "Cannot go to index #{index}: #{error}" 
+      console.log "Cannot go to index #{index}: #{error}"
     @avoidNewEntry = false
 
   next: ->
