@@ -22,7 +22,7 @@ class LocalLibrary
     do @showArtistList
 
     # TODO(Use settings)
-    @localLibrary = '/media/omnius/Music'
+    @localLibrary = 'E:\\cyprien\\Musique'
     @parseLibrary @localLibrary
 
   reloadMissingimage: (imageUrl) ->
@@ -204,7 +204,7 @@ class LocalLibrary
           else if path.extname(filePath) in ['.ogg', '.flac', '.aac', '.mp3', '.m4a']
             # Check already ingested
             db.get(filePath, (err, data) ->
-              if not err and not data
+              if err?.status is 404
                 new Track(filePath, (t) ->
                   t._id = t.path
                   db.put(t)
