@@ -22,7 +22,7 @@ class LocalLibrary
     do @showArtistList
 
     # TODO(Use settings)
-    @localLibrary = 'E:\\cyprien\\Musique'
+    @localLibrary = 'C:\\Users\\Cyprien\\Music\\Sabaton'
     @parseLibrary @localLibrary
 
   reloadMissingimage: (imageUrl) ->

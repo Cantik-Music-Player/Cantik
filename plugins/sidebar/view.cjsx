@@ -4,8 +4,8 @@ normalizeString = require('../../src/utils').normalizeString
 
 module.exports.SidebarComponent=
 class SidebarComponent extends React.Component
-  constructor: ->
-    @.props = {'links': {}}
+  constructor: (props) ->
+    super props
 
   render: ->
     # Get links

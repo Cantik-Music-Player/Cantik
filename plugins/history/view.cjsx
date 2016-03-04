@@ -3,8 +3,8 @@ ReactDOM = require('react-dom')
 
 module.exports.HistoryComponent=
 class HistoryComponent extends React.Component
-  constructor: ->
-    @props = {'history': null}
+  constructor: (props) ->
+    super props
 
   render: ->
     <div className="history">
