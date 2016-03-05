@@ -11,8 +11,6 @@ class Player
 
     @playing = false
     @playingTrack = {}
-    @currentTime = 0
-    @duration = 0
 
     do @show
 

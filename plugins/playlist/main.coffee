@@ -24,7 +24,7 @@ class Playlist
     @trackListPlayed = [@trackList[@trackIndex]]
     @trackPlayedIndex = 0
     @random = randomState
-    @emit('randomchange', randomState)
+    @emit('random_change', randomState)
 
   switchRepeatState: ->
     if @repeat is null
@@ -33,7 +33,7 @@ class Playlist
       @repeat = 'one'
     else
       @repeat = null
-    @emit('repeatchange', @repeat)
+    @emit('repeat_change', @repeat)
 
   addTrack: (track) ->
     @trackList.push(track)
