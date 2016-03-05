@@ -1,4 +1,4 @@
-events = require('events')
+events = require 'events'
 
 require 'coffee-react/register'
 PlayerComponent = require('./view.cjsx').PlayerComponent
@@ -34,7 +34,7 @@ class Player
     # Need to play
     if not @playing
       # No track -> getTrackToPlay
-      if not @playingTrack?
+      if Object.keys(@playingTrack).length is 0
         @playTrack @getNextTrack()
       else
         do @playTrack
