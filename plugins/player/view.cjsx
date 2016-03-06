@@ -1,5 +1,6 @@
-React = require('react')
-ReactDOM = require('react-dom')
+noUiSlider = require 'nouislider'
+React = require 'react'
+ReactDOM = require 'react-dom'
 normalizeString = require('../../src/utils').normalizeString
 formatTime = require('../../src/utils').formatTime
 
@@ -23,10 +24,9 @@ class PlayerComponent extends React.Component
     @props.player.pluginManager.plugins.playlist.on('repeat_change', @updateRepeat.bind(@))
 
   updatePlayingTrack: ->
-    f = ->
+    @setState(playingTrack: @props.player.playingTrack, ->
       @refs.audioObject.load()
-      do @updatePlayingState
-    @setState(playingTrack: @props.player.playingTrack, f)
+      do @updatePlayingState)
 
   updatePlayingState: ->
     @setState playing: @props.player.playing

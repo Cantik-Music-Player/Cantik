@@ -28,7 +28,8 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "musicmetadata": "^2.0.2",
-    "disconnect": "^0.7.2"
+    "disconnect": "^0.7.2",
+    "nouislider": "^8.3.0"
   },
   "devDependencies": {
     "mocha": "^2.4.5",

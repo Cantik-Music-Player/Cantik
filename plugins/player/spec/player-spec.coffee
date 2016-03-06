@@ -1,9 +1,14 @@
-Player = require '../main'
+jsdom = require 'mocha-jsdom'
 sinon = require 'sinon'
 assert = require 'assert'
 
+Player = null
+
 describe "Player", ->
+  jsdom()
+
   beforeEach ->
+    Player = require '../main'
     Player.prototype.show = sinon.spy()
     pluginManager = {'plugins': {'playlist': {}}}
     pluginManager.plugins.playlist.getLastTrack = sinon.spy()
