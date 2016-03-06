@@ -1,6 +1,5 @@
 require 'coffee-react/register'
 
-rewire = require 'rewire'
 sinon = require 'sinon'
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'
