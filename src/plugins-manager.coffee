@@ -30,7 +30,7 @@ class PluginManager
       console.error("Cannot load #{pluginPath} plugin: #{error}")
 
   loadPluginCss: (cssFolder) ->
-    if fs.statSync(cssFolder).isDirectory()
+    if fs.existsSync(cssFolder) and fs.statSync(cssFolder).isDirectory()
       files = fs.readdirSync(cssFolder)
       for file in files
           if file[0] != '.'
