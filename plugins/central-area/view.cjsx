@@ -10,7 +10,7 @@ class CentralAreaComponent extends React.Component
   render: ->
     # Format panels dict
     panels = {}
-    for name, content of @props.centralArea.panels
+    for name, content of @props.panels
       panels[normalizeString name] = __html: content
 
     <div className="panel panel-default" id="content">
@@ -21,8 +21,8 @@ class CentralAreaComponent extends React.Component
       </div>
     </div>
 
-module.exports.show = (CentralArea, element) ->
+module.exports.show = (panels, element) ->
   ReactDOM.render(
-    <CentralAreaComponent centralArea=CentralArea />,
+    <CentralAreaComponent panels=panels />,
     element
   )

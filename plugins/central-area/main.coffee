@@ -9,7 +9,7 @@ class CentralArea
     do @show
 
   show: ->
-    showCentralArea(@, @element)
+    showCentralArea(@panels, @element)
 
   addPanel: (name, category, content, sidebarClick, sidebarForceActive) ->
     # Add label to sidebar
