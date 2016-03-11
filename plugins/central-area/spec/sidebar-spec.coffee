@@ -4,7 +4,7 @@ assert = require 'assert'
 
 describe "CentralArea", ->
   beforeEach ->
-    CentralArea.prototype.show = sinon.spy()
+    CentralArea.prototype.show = sinon.stub().returns({querySelector: -> 'DOM'})
     pluginManager = {'plugins': {'sidebar': {'addLink': sinon.spy()}}}
     @centralArea = new CentralArea(pluginManager, 'element')
 
@@ -13,7 +13,8 @@ describe "CentralArea", ->
     assert(CentralArea.prototype.show.called)
 
   it "Add Panel", ->
-    @centralArea.addPanel('name', 'category', 'content', 'sidebarClick', 'sidebarForceActive')
+    element = @centralArea.addPanel('name', 'category', 'sidebarClick', 'sidebarForceActive')
 
-    assert.deepEqual(@centralArea.panels, {'name': 'content'})
+    assert.deepEqual(element, 'DOM')
+    assert.deepEqual(@centralArea.panels, ['name'])
     assert(@centralArea.pluginManager.plugins.sidebar.addLink.calledWith('name', 'category', 'sidebarClick', 'sidebarForceActive'))

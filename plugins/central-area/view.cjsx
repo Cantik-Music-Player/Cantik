@@ -8,21 +8,18 @@ class CentralAreaComponent extends React.Component
     super props
 
   render: ->
-    # Format panels dict
-    panels = {}
-    for name, content of @props.panels
-      panels[normalizeString name] = __html: content
-
     <div className="panel panel-default" id="content">
       <div className="panel-body">
         <div className="tab-content">
-          {<div className="tab-pane" id={name} dangerouslySetInnerHTML={content}></div> for name, content of panels}
+          {<div className="tab-pane" id={normalizeString name}></div> for name in @props.centralArea.panels}
         </div>
       </div>
     </div>
 
-module.exports.show = (panels, element) ->
-  ReactDOM.render(
-    <CentralAreaComponent panels=panels />,
+module.exports.show = (centralArea, element) ->
+  c = ReactDOM.render(
+    <CentralAreaComponent centralArea=centralArea />,
     element
   )
+
+  ReactDOM.findDOMNode(c)
