@@ -15,15 +15,17 @@ class LocalLibrary
 
     @loading = false
 
-    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source', @indexHtml,
+    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source',
                                                            @.showArtistList.bind(@), true)
+    @element = $(@element)
+    @element.html(@indexHtml)
 
     do @initDB
     do @showArtistList
 
     # TODO(Use settings)
     #@localLibrary = 'C:\\Users\\Cyprien\\Music\\Sabaton'
-    @parseLibrary @localLibrary
+    #@parseLibrary @localLibrary
 
   reloadMissingimage: (imageUrl) ->
     @element.find('.figure div.image').each(->
