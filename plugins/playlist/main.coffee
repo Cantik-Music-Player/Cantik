@@ -23,10 +23,11 @@ class Playlist
     showPlaylist(@, @element)
 
   setRandom: (randomState) ->
-    @trackListPlayed = [@trackList[@trackIndex]]
-    @trackPlayedIndex = 0
-    @random = randomState
-    @emit('random_change', randomState)
+    if randomState is not @random
+      @trackListPlayed = [@trackList[@trackIndex]]
+      @trackPlayedIndex = 0
+      @random = randomState
+      @emit('random_change', randomState)
 
   switchRepeatState: ->
     if @repeat is null
