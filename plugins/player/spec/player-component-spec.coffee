@@ -41,8 +41,8 @@ describe "Player Component", ->
 
     assert(@player.on.calledWith('track_changed'))
     assert(@player.on.calledWith('play_state_changed'))
-    assert(@player.pluginManager.plugins.playlist.on.calledWith('random_change'))
-    assert(@player.pluginManager.plugins.playlist.on.calledWith('repeat_change'))
+    assert(@player.pluginManager.plugins.playlist.on.calledWith('random_changed'))
+    assert(@player.pluginManager.plugins.playlist.on.calledWith('repeat_changed'))
 
   it "Update Playing Track", ->
     @pc.updatePlayingState = sinon.spy()

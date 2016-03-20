@@ -20,8 +20,8 @@ class PlayerComponent extends React.Component
 
     @props.player.on('track_changed', @updatePlayingTrack.bind(@))
     @props.player.on('play_state_changed', @updatePlayingState.bind(@))
-    @props.player.pluginManager.plugins.playlist.on('random_change', @updateRandom.bind(@))
-    @props.player.pluginManager.plugins.playlist.on('repeat_change', @updateRepeat.bind(@))
+    @props.player.pluginManager.plugins.playlist.on('random_changed', @updateRandom.bind(@))
+    @props.player.pluginManager.plugins.playlist.on('repeat_changed', @updateRepeat.bind(@))
 
   updatePlayingTrack: ->
     @setState(playingTrack: @props.player.playingTrack, ->

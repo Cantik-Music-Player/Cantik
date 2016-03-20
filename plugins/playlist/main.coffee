@@ -10,10 +10,10 @@ class Playlist
     events.EventEmitter.call(this)
 
     @element = @pluginManager.plugins.centralarea.addPanel('Playlist', 'Now Playing')
-    @trackList = []
-    @trackListPlayed = []
-    @trackIndex = -1
-    @trackPlayedIndex = -1
+    @tracklist = []
+    @tracklistHistory = []
+    @tracklistIndex = -1
+    @tracklistHistoryIndex = -1
     @random = false
     @repeat = null
 
@@ -24,10 +24,10 @@ class Playlist
 
   setRandom: (randomState) ->
     if randomState is not @random
-      @trackListPlayed = [@trackList[@trackIndex]]
-      @trackPlayedIndex = 0
+      @tracklistHistory = [@tracklist[@tracklistIndex]]
+      @tracklistHistoryIndex = 0
       @random = randomState
-      @emit('random_change', randomState)
+      @emit('random_changed', randomState)
 
   switchRepeatState: ->
     if @repeat is null
@@ -36,58 +36,66 @@ class Playlist
       @repeat = 'one'
     else
       @repeat = null
-    @emit('repeat_change', @repeat)
+    @emit('repeat_changed', @repeat)
 
   addTrack: (track) ->
-    @trackList.push(track)
-    @emit('tracklist_changed', @trackList)
+    @tracklist.push(track)
+    @emit('tracklist_changed', @tracklist)
 
   addTracks: (tracks) ->
     @addTrack t for t in tracks
 
   cleanPlaylist: ->
-    @trackList = []
-    @trackIndex = -1
-    @trackListPlayed = []
-    @emit('tracklist_changed', @trackList)
+    @tracklist = []
+    @tracklistIndex = -1
+    @tracklistHistory = []
+    @emit('tracklist_changed', @tracklist)
 
   getNextTrack: ->
-    if @trackPlayedIndex < @trackListPlayed.length - 1
-      @trackPlayedIndex++
-      @trackIndex = @trackList.indexOf(@trackListPlayed[@trackPlayedIndex])
+    if @tracklistHistoryIndex < @tracklistHistory.length - 1
+      # Going next in the history
+      @tracklistHistoryIndex++
+      @tracklistIndex = @tracklist.indexOf(@tracklistHistory[@tracklistHistoryIndex])
     else if not @random
-      if @trackIndex < @trackList.length - 1
-        @trackIndex++
-        @trackListPlayed.push(@trackList[@trackIndex])
-        @trackPlayedIndex = @trackListPlayed.length - 1
+      if @tracklistIndex < @tracklist.length - 1
+        # No random & not end of plalist => Go next
+        @tracklistIndex++
+        @tracklistHistory.push(@tracklist[@tracklistIndex])
+        @tracklistHistoryIndex = @tracklistHistory.length - 1
       else if @repeat is 'all'
-        @trackIndex = 0
-        @trackListPlayed = [@trackList[@trackIndex]]
-        @trackPlayedIndex = 0
+        # End of playlist & repeat is all => Go to first track
+        @tracklistIndex = 0
+        @tracklistHistory = [@tracklist[@tracklistIndex]]
+        @tracklistHistoryIndex = 0
     else
-      if @repeat is 'all' and @trackListPlayed.length is @trackList.length
-        @trackListPlayed = []
-      if @trackListPlayed.length < @trackList.length
+      # Random
+      if @repeat is 'all' and @tracklistHistory.length is @tracklist.length
+        # Reset history if it contains all te tracklist
+        @tracklistHistory = []
+      if @tracklistHistory.length < @tracklist.length
+        # Find a random not alreay in history
         while true
-          @trackIndex = Math.floor(Math.random() * @trackList.length);
-          break if @trackList[@trackIndex] not in @trackListPlayed
+          @tracklistIndex = Math.floor(Math.random() * @tracklist.length);
+          break if @tracklist[@tracklistIndex] not in @tracklistHistory
 
-        @trackListPlayed.push(@trackList[@trackIndex])
-        @trackPlayedIndex = @trackListPlayed.length - 1
+        @tracklistHistory.push(@tracklist[@tracklistIndex])
+        @tracklistHistoryIndex = @tracklistHistory.length - 1
 
-    @emit('track_changed', @trackList[@trackIndex])
-    @trackList[@trackIndex]
+    @emit('track_changed', @tracklist[@tracklistIndex])
+    @tracklist[@tracklistIndex]
 
   getLastTrack: ->
-    if @trackPlayedIndex > 0
-      @trackPlayedIndex--
-      @trackIndex = @trackList.indexOf(@trackListPlayed[@trackPlayedIndex])
+    if @tracklistHistoryIndex > 0
+      # Go back in history
+      @tracklistHistoryIndex--
+      @tracklistIndex = @tracklist.indexOf(@tracklistHistory[@tracklistHistoryIndex])
     else if not @random
-      if @trackIndex > 0
-        @trackIndex--
-        @trackListPlayed.splice(@trackPlayedIndex, 0, @trackList[@trackIndex])
+      if @tracklistIndex > 0
+        # No random and not beginning => Go last track
+        @tracklistIndex--
+        @tracklistHistory.splice(@tracklistHistoryIndex, 0, @tracklist[@tracklistIndex])
 
-    @emit('track_changed', @trackList[@trackIndex])
-    @trackList[@trackIndex]
+    @emit('track_changed', @tracklist[@tracklistIndex])
+    @tracklist[@tracklistIndex]
 
 Playlist.prototype.__proto__ = events.EventEmitter.prototype

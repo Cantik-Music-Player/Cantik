@@ -7,28 +7,26 @@ class PlaylistComponent extends React.Component
     super props
 
     @state = {
-      trackList: @props.playlist.trackList,
-      currentTrack: @props.playlist.trackList[@props.playlist.trackIndex]
+      tracklist: @props.playlist.tracklist,
+      currentTrack: @props.playlist.tracklist[@props.playlist.tracklistIndex]
     }
 
-    @props.playlist.on('tracklist_changed', @updateTrackList.bind(@))
+    @props.playlist.on('tracklist_changed', @updateTracklist.bind(@))
     @props.playlist.on('track_changed', @updateCurrentTrack.bind(@))
 
-  updateTrackList: (trackList) ->
-    @setState trackList: trackList
+  updateTracklist: (tracklist) ->
+    @setState tracklist: tracklist
 
   updateCurrentTrack: (track) ->
     @setState currentTrack: track
 
   render: ->
     # Get track class
-    for track in @state.trackList
+    for track in @state.tracklist
       if track is @state.currentTrack
         track.class = "info"
       else
         track.class = null
-
-    console.log @state.trackList
 
     <div id="playlist">
       <table className="table table-striped table-hover fixed">
@@ -48,7 +46,7 @@ class PlaylistComponent extends React.Component
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
             <td>{track.metadata.duration}</td>
-          </tr> for track in @state.trackList}
+          </tr> for track in @state.tracklist}
         </tbody>
       </table>
     </div>
