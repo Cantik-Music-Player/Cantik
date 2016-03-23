@@ -7,10 +7,6 @@ jsdom = require 'mocha-jsdom'
 Player = null
 PlayerComponent = null
 
-utils = require '../../../src/utils'
-sinon.stub(utils, 'formatTime', (s) ->
-  s)
-
 describe "Player Component", ->
   jsdom()
 
@@ -117,7 +113,7 @@ describe "Player Component", ->
 
     do @pc.updateDuration
 
-    assert(@pc.setState.calledWith({duration: 100}))
+    assert(@pc.setState.called)
     assert(@pc.refs.progressBar.noUiSlider.updateOptions.calledWith({
       range: {
         min: 0,
@@ -137,7 +133,7 @@ describe "Player Component", ->
 
     do @pc.updateCurrentTime
 
-    assert(@pc.setState.calledWith({currentTime: 100}))
+    assert(@pc.setState.called)
     assert(@pc.refs.progressBar.noUiSlider.set.calledWith(100))
 
   it "Set Current Time", ->

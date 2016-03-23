@@ -1,3 +1,5 @@
+moment = require 'moment'
+
 # Normalize a string by removing space
 # and setting to lowercase
 module.exports.normalizeString = (str) ->
@@ -5,6 +7,4 @@ module.exports.normalizeString = (str) ->
 
 # Format a number of seconds to mm:ss
 module.exports.formatTime = (seconds) ->
-  (new Date).clearTime()
-            .addSeconds(seconds)
-            .toString('mm:ss')
+  moment().startOf('day').seconds(seconds).format('mm:ss')
