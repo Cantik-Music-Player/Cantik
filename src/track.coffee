@@ -8,6 +8,6 @@ class Track
     mm(fs.createReadStream(@path), (err, metadata) ->
       if metadata?
         delete metadata.picture
-        t.metadata = metadata if not err
+        t.metadata = metadata
         callback t
     )
