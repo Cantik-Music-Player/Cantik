@@ -1,3 +1,4 @@
+events = require 'events'
 fs = require 'fs'
 remote = require 'remote'
 app = remote.require 'app'
@@ -10,29 +11,28 @@ showLocalLibrary = require('./view.cjsx').show
 module.exports =
 class LocalLibrary
   constructor: (@pluginManager) ->
+    events.EventEmitter.call(@)
+
     @history = @pluginManager.plugins.history
     @loading = false
     @userData = app.getPath 'userData'
-
     @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source',
                                                            null, true)
 
     do @initDB
-
     do @show
 
-    @localLibrary = 'C:\\Users\\Cyprien\\Music\\Sabaton'
+    @localLibrary = '/home/cyprien/Musique/'
     @parseLibrary @localLibrary
 
   show: ->
     showLocalLibrary(@, @element)
 
   getArtists: (callback) ->
-    if not @artists
-      localLibrary = @
-      @db.query('artistcount/artist', {reduce: true, group: true}, (err, results) ->
-        localLibrary.artists = (a.key for a in results.rows)
-        callback localLibrary.artists)
+    if not @artists or @artists?.length is 0
+      @db.query('artistcount/artist', {reduce: true, group: true}, (err, results) =>
+        @artists = (a.key for a in results.rows)
+        callback @artists)
     else
       callback @artists
 
@@ -84,22 +84,40 @@ class LocalLibrary
     })
 
   parseLibrary: (libraryPath) ->
-    db = @db
+    if libraryPath is @localLibrary
+      @loading = true
+      @toTreat = 0
+      @emit('library_loading', @)
+
     files = fs.readdirSync(libraryPath)
 
     # Get the files
     for file in files
       if file[0] != '.'
-          filePath = "#{libraryPath}/#{file}"
-          stat = fs.statSync(filePath)
+        filePath = "#{libraryPath}/#{file}"
+        stat = fs.statSync(filePath)
 
-          if stat.isDirectory()
-            @parseLibrary filePath
-          else if path.extname(filePath) in ['.ogg', '.flac', '.aac', '.mp3', '.m4a']
-            # Check already ingested
-            db.get(filePath, (err, data) ->
+        if stat.isDirectory()
+          @parseLibrary filePath
+        else if path.extname(filePath) in ['.ogg', '.flac', '.aac', '.mp3', '.m4a']
+          @toTreat++
+
+          do (filePath) =>
+            @db.get(filePath, (err, data) =>
               if err?.status is 404
-                new Track(filePath, (t) ->
+                new Track(filePath, (t) =>
                   t._id = t.path
-                  db.put(t)
-                  ))
+                  @db.put(t)
+
+                  @toTreat--
+                  if @toTreat is 0
+                    @loading = false
+                    @emit('library_loaded', @)
+                  )
+              else
+                @toTreat--
+                if @toTreat is 0
+                  @loading = false
+                  @emit('library_loaded', @))
+
+LocalLibrary.prototype.__proto__ = events.EventEmitter.prototype

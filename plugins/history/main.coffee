@@ -14,10 +14,6 @@ class History
     showHistory(@, @element)
 
   # Add an entry to the history
-  # Format {
-  #         function: function,
-  #         args: list of args
-  # }
   addHistoryEntry: (entry) ->
     if not @avoidNewEntry
       @history = @history[0..@historyIndex]
@@ -28,8 +24,7 @@ class History
     # Avoid creating new history entry when accessing it thought history
     @avoidNewEntry = true
     try
-      entry = @history[index]
-      entry.function entry.args...
+      do @history[index]
       @historyIndex = index
     catch error
       console.log "Cannot go to index #{index}: #{error}"

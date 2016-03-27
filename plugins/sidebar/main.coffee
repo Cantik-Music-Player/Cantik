@@ -12,6 +12,8 @@ class Sidebar
     showSidebar(@links, @element)
 
   addLink: (name, category, onClick, active) ->
+    active = if active then true else false
     @links[category] = [] if category not in Object.keys(@links)
     @links[category].push({'title': name, 'onClick': onClick, 'active': active})
     do @show
+    active

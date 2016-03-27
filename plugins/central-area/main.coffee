@@ -15,9 +15,9 @@ class CentralArea
 
   addPanel: (name, category, sidebarClick, sidebarForceActive) ->
     # Add label to sidebar
-    @pluginManager.plugins.sidebar.addLink(name, category, sidebarClick, sidebarForceActive)
+    active = @pluginManager.plugins.sidebar.addLink(name, category, sidebarClick, sidebarForceActive)
 
-    @panels.push(name)
+    @panels.push({name: name, active: active})
     centralArea = do @show
 
     # Return dom element

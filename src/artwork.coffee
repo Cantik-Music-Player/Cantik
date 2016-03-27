@@ -25,7 +25,7 @@ albumsMem = []
             url = data.images[0].resource_url
             discogsClient.image(url, (err, data, rateLimit) ->
                 fs.writeFile("#{app.getPath('userData')}/images/artists/#{artist}", data, 'binary', ->
-                  callback "#{app.getPath('userData')}/images/artists/#{artist}")
+                  callback "#{app.getPath('userData')}/images/artists/#{artist}" if callback?)
             )))
 
 @getAlbumImage = (artist, album, callback) ->
@@ -41,6 +41,6 @@ albumsMem = []
           if not err and data.images?
             url = data.images[0].resource_url
             discogsClient.image(url, (err, data, rateLimit) ->
-                fs.writeFile("#{app.getPath('userData')}/images/albums/#{artist} - #{album}", data, 'binary', ->
-                  callback "#{app.getPath('userData')}/images/albums/#{artist} - #{album}")
+              fs.writeFile("#{app.getPath('userData')}/images/albums/#{artist} - #{album}", data, 'binary', (err) ->
+                callback "#{app.getPath('userData')}/images/albums/#{artist} - #{album}" if callback?)
             )))

@@ -24,7 +24,16 @@ class LocalLibraryComponent extends React.Component
       <div className="sk-cube3 sk-cube"></div>
     </div>
 
+  addTracksToPlaylist: (trackToPlay, tracks) ->
+    tracksDoc = (track.doc for track in tracks)
+
+    @props.localLibrary.pluginManager.plugins.playlist.cleanPlaylist()
+    @props.localLibrary.pluginManager.plugins.playlist.addTracks(tracksDoc)
+    @props.localLibrary.pluginManager.plugins.playlist.tracklistIndex = -1 + tracks.indexOf trackToPlay
+    @props.localLibrary.pluginManager.plugins.player.next()
+
   renderAlbum: (artist, album) ->
+    @props.localLibrary.history.addHistoryEntry(@renderAlbum.bind(@, artist, album))
     @setState showing: 'loading'
 
     @props.localLibrary.getAlbumTracks(artist, album, (tracks) =>
@@ -53,7 +62,7 @@ class LocalLibraryComponent extends React.Component
               </tr>
             </thead>
             <tbody>
-              {<tr>
+              {<tr onDoubleClick={@addTracksToPlaylist.bind(@, track, tracks)}>
                 <td>{track.doc.metadata.track.no}</td>
                 <td>{track.doc.metadata.title}</td>
                 <td>{track.doc.metadata.duration}</td>
@@ -65,6 +74,7 @@ class LocalLibraryComponent extends React.Component
       @setState showing: 'cache')
 
   renderAlbumsList: (artist) ->
+    @props.localLibrary.history.addHistoryEntry(@renderAlbumsList.bind(@, artist))
     @setState showing: 'loading'
 
     @props.localLibrary.getAlbums(artist, (albums) =>
@@ -79,6 +89,7 @@ class LocalLibraryComponent extends React.Component
       @setState showing: 'cache')
 
   renderArtistsList: ->
+    @props.localLibrary.history.addHistoryEntry(@renderArtistsList.bind(@))
     @setState showing: 'loading'
 
     @props.localLibrary.getArtists((artists) =>
@@ -97,11 +108,11 @@ class LocalLibraryComponent extends React.Component
 
   render: ->
     if @state.showing is 'loading'
-      <div class="local-library">
+      <div className="local-library">
         {do @renderLoading}
       </div>
     else if @state.showing is "cache"
-      <div class="local-library">
+      <div className="local-library">
         {@temporaryCache}
       </div>
 

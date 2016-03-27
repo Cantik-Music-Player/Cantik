@@ -7,7 +7,7 @@ showPlayer = require('./view.cjsx').show
 module.exports =
 class Player
   constructor: (@pluginManager, @element) ->
-    events.EventEmitter.call(this)
+    events.EventEmitter.call(@)
 
     @playing = false
     @playingTrack = {}
