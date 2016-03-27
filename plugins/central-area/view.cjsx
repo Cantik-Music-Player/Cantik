@@ -11,7 +11,7 @@ class CentralAreaComponent extends React.Component
     <div className="panel panel-default" id="content">
       <div className="panel-body">
         <div className="tab-content">
-          {<div key={normalizeString panel.name} className="tab-pane #{'active' if panel.active}"  id={normalizeString panel.name}></div> for panel in @props.centralArea.panels}
+          {<div key={normalizeString panel.name} className="tab-pane #{if panel.active then 'active' else ''}"  id={normalizeString panel.name}></div> for panel in @props.centralArea.panels}
         </div>
       </div>
     </div>

@@ -32,10 +32,7 @@ describe "History", ->
 
   it "Go to entry", ->
     spyFunction = sinon.spy()
-    @history.history = [1, {
-        'function': spyFunction,
-        'args': [1, 2]
-    }, 7]
+    @history.history = [1, spyFunction.bind(null, 1, 2), 7]
     @history.historyIndex = -1
     @history.goToEntry 1
 

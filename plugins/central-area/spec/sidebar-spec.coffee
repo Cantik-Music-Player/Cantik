@@ -16,5 +16,5 @@ describe "CentralArea", ->
     element = @centralArea.addPanel('name', 'category', 'sidebarClick', 'sidebarForceActive')
 
     assert.deepEqual(element, 'DOM')
-    assert.deepEqual(@centralArea.panels, ['name'])
+    assert.deepEqual(@centralArea.panels, [{name: 'name', active: @centralArea.pluginManager.plugins.sidebar.addLink()}])
     assert(@centralArea.pluginManager.plugins.sidebar.addLink.calledWith('name', 'category', 'sidebarClick', 'sidebarForceActive'))
