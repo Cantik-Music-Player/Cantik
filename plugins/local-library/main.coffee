@@ -22,8 +22,10 @@ class LocalLibrary
     do @initDB
     do @show
 
-    @localLibrary = '/home/cyprien/Musique/'
-    @parseLibrary @localLibrary
+    @pluginManager.plugins.centralarea
+
+    @localLibrary = @pluginManager.plugins.settings.addSettings('Local Library', 'Library Path', 'text', '')
+    @parseLibrary @localLibrary if not @localLibrary is ''
 
   show: ->
     showLocalLibrary(@, @element)
