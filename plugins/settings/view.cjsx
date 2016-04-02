@@ -8,20 +8,29 @@ class SettingsComponent extends React.Component
 
     @state = {display: 'block'}
 
+    @settings = props.settings.settings
 
   hideSettings: ->
     @setState display: 'none'
 
-  generateField: (name, value, type) ->
-    @generateTextInput(name, value) if type is 'text'
+  generateField: (name, value, type, plugin) ->
+    @generateTextInput(name, value, plugin) if type is 'text'
 
-  generateTextInput: (name, value) ->
+  setSetting: (plugin, name, e) ->
+    @settings[plugin][name].value = e.target.value
+
+  generateTextInput: (name, value, plugin) ->
     <div className="form-group">
       <label htmlFor={name} className="col-md-2 control-label">{name}</label>
       <div className="col-md-10">
-        <input type="text" className="form-control" id={name} defaultValue={value} placeholder={name} />
+        <input type="text" className="form-control" id={name} defaultValue={value} placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
       </div>
     </div>
+
+  saveSettings: ->
+    @props.settings.settings = @settings
+    do @props.settings.saveSettings
+    do @hideSettings
 
   render: ->
     <div className="modal" style={{display: @state.display}}>
@@ -35,13 +44,13 @@ class SettingsComponent extends React.Component
             <form>
               {<fieldset>
                 <legend>{plugin}</legend>
-                {@generateField(name, settingDetails.value, settingDetails.type) for name, settingDetails of settings}
-              </fieldset> for plugin, settings of @props.settings}
+                {@generateField(name, settingDetails.value, settingDetails.type, plugin) for name, settingDetails of settings}
+              </fieldset> for plugin, settings of @props.settings.settings}
             </form>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" className="btn btn-primary">Save changes</button>
+            <button type="button" className="btn btn-default" onClick={@hideSettings.bind(@)}>Close</button>
+            <button type="button" className="btn btn-primary" onClick={@saveSettings.bind(@)}>Save changes</button>
           </div>
         </div>
       </div>

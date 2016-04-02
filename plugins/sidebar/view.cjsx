@@ -17,7 +17,7 @@ class SidebarComponent extends React.Component
         # Push every links of the category
         hrefTitle = "##{normalizeString link.title}"
         links.push(<li className={'active' if link.active} key={link.title} onClick={link.onClick}>
-                    <a className='withripple' data-toggle='pill' href={hrefTitle}>{link.title}</a>
+                    <a className='withripple' data-toggle={'pill' if link.dataToggle} href={hrefTitle}>{link.title}</a>
                    </li>)
 
     <div className="panel panel-default" id="sidebar">

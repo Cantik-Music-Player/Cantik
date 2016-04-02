@@ -16,10 +16,10 @@ class Settings
 
     @settings = @loadSettings()
 
-    @pluginManager.plugins.sidebar.addLink('Settings', 'Main', @show.bind(@))
+    @pluginManager.plugins.sidebar.addLink('Settings', 'Main', @show.bind(@), null, false)
 
   show: ->
-    showSettings(@settings, @element)
+    showSettings(@, @element)
 
   addSettings: (pluginName, settingName, settingType, settingDefault) ->
     if not @settings[pluginName]?
@@ -37,6 +37,7 @@ class Settings
 
   setSetting: (pluginName, settingName, value) ->
     @settings[pluginName]?[settingName]?.value = value
+    do @saveSettings
 
   loadSettings: ->
     if fs.existsSync(@configPath)

@@ -11,9 +11,10 @@ class Sidebar
   show: ->
     showSidebar(@links, @element)
 
-  addLink: (name, category, onClick, active) ->
+  addLink: (name, category, onClick, active, dataToggle) ->
     active = if active then true else false
+    dataToggle = true if not dataToggle?
     @links[category] = [] if category not in Object.keys(@links)
-    @links[category].push({'title': name, 'onClick': onClick, 'active': active})
+    @links[category].push({'title': name, 'onClick': onClick, 'active': active, 'dataToggle': dataToggle})
     do @show
     active
