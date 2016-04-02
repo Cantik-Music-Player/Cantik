@@ -13,22 +13,26 @@ describe "Sidebar Component", ->
       "cat1": [{
           "title": "test1",
           "onClick": ->,
-          "active": true
+          "active": true,
+          "dataToggle": false
         },
         {
           "title": "test3",
           "onClick": ->,
-          "active": false
+          "active": false,
+          "dataToggle": true
         }],
       "cat2": [{
           "title": "test2",
           "onClick": ->,
-          "active": true
+          "active": true,
+          "dataToggle": true
         },
         {
           "title": "test4",
           "onClick": ->,
-          "active": false
+          "active": false,
+          "dataToggle": true
         }],
     }
 
@@ -39,4 +43,4 @@ describe "Sidebar Component", ->
     html = document.getElementsByTagName("body")[0].innerHTML.replace(/data-reactid="[\.a-z0-9\$]*"/g, '')
 
     assert.equal(html,
-    '<div class="panel panel-default" id="sidebar" ><div class="panel-body" ><ul class="nav nav-pills nav-stacked" ><h4 >cat1</h4><li class="active" ><a class="withripple" data-toggle="pill" href="#test1" >test1</a></li><li ><a class="withripple" data-toggle="pill" href="#test3" >test3</a></li><h4 >cat2</h4><li class="active" ><a class="withripple" data-toggle="pill" href="#test2" >test2</a></li><li ><a class="withripple" data-toggle="pill" href="#test4" >test4</a></li></ul></div></div>')
+    '<div class="panel panel-default" id="sidebar" ><div class="panel-body" ><ul class="nav nav-pills nav-stacked" ><h4 >cat1</h4><li class="active" ><a class="withripple" href="#test1" >test1</a></li><li ><a class="withripple" data-toggle="pill" href="#test3" >test3</a></li><h4 >cat2</h4><li class="active" ><a class="withripple" data-toggle="pill" href="#test2" >test2</a></li><li ><a class="withripple" data-toggle="pill" href="#test4" >test4</a></li></ul></div></div>')
