@@ -16,6 +16,11 @@ class LocalLibraryComponent extends React.Component
 
     do @renderArtistsList
 
+  renderMessage: (msg) ->
+    <div className="msg-info">
+      <h1>{msg}</h1>
+    </div>
+
   renderLoading: ->
     <div className="sk-folding-cube loading">
       <div className="sk-cube1 sk-cube"></div>
@@ -93,23 +98,30 @@ class LocalLibraryComponent extends React.Component
     @setState showing: 'loading'
 
     @props.localLibrary.getArtists((artists) =>
-      Artwork.getArtistImage(artist) for artist in artists
-      coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
-      @temporaryCache = <div>
-        {<div className="figure" onClick={@renderAlbumsList.bind(@, artist)}>
-          <div className="fallback-artist">
-            <div className="image" style={{backgroundImage: "url('#{coverPath}#{artist}')"}}>
+      if artists.length is 0 and @props.localLibrary.localLibrary is ''
+        @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
+      else
+        Artwork.getArtistImage(artist) for artist in artists
+        coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
+        @temporaryCache = <div>
+          {<div className="figure" onClick={@renderAlbumsList.bind(@, artist)}>
+            <div className="fallback-artist">
+              <div className="image" style={{backgroundImage: "url('#{coverPath}#{artist}')"}}>
+              </div>
             </div>
-          </div>
-          <div className="caption">{artist}</div>
-        </div> for artist in artists}
-      </div>
-      @setState showing: 'cache')
+            <div className="caption">{artist}</div>
+          </div> for artist in artists}
+        </div>
+        @setState showing: 'cache')
 
   render: ->
     if @state.showing is 'loading'
       <div className="local-library">
         {do @renderLoading}
+      </div>
+    else if @state.showing is 'msg'
+      <div className="local-library">
+        {@renderMessage @state.msg}
       </div>
     else if @state.showing is "cache"
       <div className="local-library">
