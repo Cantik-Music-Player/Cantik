@@ -37,6 +37,21 @@ class Settings
 
   setSetting: (pluginName, settingName, value) ->
     @settings[pluginName]?[settingName]?.value = value
+    @emit("#{pluginName}-#{settingName}-change", value)
+    do @saveSettings
+
+  setSettings: (settings) ->
+    oldSettings = @settings
+    @settings = settings
+
+    # Emit events
+    for pluginName, pluginSettings of settings
+      for settingName, settingParam of pluginSettings
+        if settingParam.value != oldSettings[pluginName][settingName].value
+          try
+              @emit("#{pluginName}-#{settingName}-change", settingParam.value)
+          catch error
+
     do @saveSettings
 
   loadSettings: ->
@@ -46,4 +61,6 @@ class Settings
       {}
 
   saveSettings: ->
-    fs.writeFile(@configPath, JSON.stringify(@settings));
+    fs.writeFile(@configPath, JSON.stringify(@settings))
+
+Settings.prototype.__proto__ = events.EventEmitter.prototype

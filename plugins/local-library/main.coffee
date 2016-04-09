@@ -27,6 +27,11 @@ class LocalLibrary
     @localLibrary = @pluginManager.plugins.settings.addSettings('Local Library', 'Library Path', 'text', '')
     @parseLibrary @localLibrary if not @localLibrary is ''
 
+    # Update library if path changes
+    @pluginManager.plugins.settings.on('Local Library-Library Path-change', (path) =>
+      @localLibrary = path
+      @parseLibrary @localLibrary)
+
   show: ->
     showLocalLibrary(@, @element)
 

@@ -8,7 +8,7 @@ class SettingsComponent extends React.Component
 
     @state = {display: 'block'}
 
-    @settings = props.settings.settings
+    @settings = JSON.parse(JSON.stringify(props.settings.settings))  # Copy object
 
   hideSettings: ->
     @setState display: 'none'
@@ -28,8 +28,7 @@ class SettingsComponent extends React.Component
     </div>
 
   saveSettings: ->
-    @props.settings.settings = @settings
-    do @props.settings.saveSettings
+    @props.settings.setSettings @settings
     do @hideSettings
 
   render: ->
