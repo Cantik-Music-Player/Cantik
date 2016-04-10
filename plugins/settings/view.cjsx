@@ -27,9 +27,14 @@ class SettingsComponent extends React.Component
       </div>
     </div>
 
-  saveSettings: ->
+  saveSettings: (e) ->
     @props.settings.setSettings @settings
     do @hideSettings
+
+    # Stop event propagation
+    if e?
+      e.preventDefault()
+      e.stopPropagation()
 
   render: ->
     <div className="modal" style={{display: @state.display}}>
@@ -40,7 +45,7 @@ class SettingsComponent extends React.Component
             <h4 className="modal-title">Settings</h4>
           </div>
           <div className="modal-body">
-            <form>
+            <form onSubmit={@saveSettings.bind(@)}>
               {<fieldset>
                 <legend>{plugin}</legend>
                 {@generateField(name, settingDetails.value, settingDetails.type, plugin) for name, settingDetails of settings}
