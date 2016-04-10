@@ -24,7 +24,7 @@ class LocalLibrary
 
     @pluginManager.plugins.centralarea
 
-    @localLibrary = @pluginManager.plugins.settings.addSettings('Local Library', 'Library Path', 'text', '')
+    @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library', 'Library Path', 'text', '')
     @parseLibrary @localLibrary if not @localLibrary is ''
 
     # Update library if path changes

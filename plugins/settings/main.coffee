@@ -21,7 +21,7 @@ class Settings
   show: ->
     showSettings(@, @element)
 
-  addSettings: (pluginName, settingName, settingType, settingDefault) ->
+  addSetting: (pluginName, settingName, settingType, settingDefault) ->
     if not @settings[pluginName]?
       @settings[pluginName] = {}
 
