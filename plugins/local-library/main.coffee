@@ -25,11 +25,12 @@ class LocalLibrary
     @pluginManager.plugins.centralarea
 
     @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library', 'Library Path', 'text', '')
-    @parseLibrary @localLibrary if not @localLibrary is ''
+    @parseLibrary @localLibrary if @localLibrary != ''
 
     # Update library if path changes
     @pluginManager.plugins.settings.on('Local Library-Library Path-change', (path) =>
       @localLibrary = path
+      @emit('library_path_change', @)
       @parseLibrary @localLibrary)
 
   show: ->
@@ -93,6 +94,7 @@ class LocalLibrary
   parseLibrary: (libraryPath) ->
     if libraryPath is @localLibrary
       @loading = true
+      @docToCreate = []
       @toTreat = 0
       @emit('library_loading', @)
 
@@ -114,17 +116,19 @@ class LocalLibrary
               if err?.status is 404
                 new Track(filePath, (t) =>
                   t._id = t.path
-                  @db.put(t)
+                  @docToCreate.push(t)
 
                   @toTreat--
                   if @toTreat is 0
-                    @loading = false
-                    @emit('library_loaded', @)
+                    @db.bulkDocs(@docToCreate, =>
+                      @loading = false
+                      @emit('library_loaded', @))
                   )
               else
                 @toTreat--
                 if @toTreat is 0
-                  @loading = false
-                  @emit('library_loaded', @))
+                  @db.bulkDocs(@docToCreate, =>
+                    @loading = false
+                    @emit('library_loaded', @)))
 
 LocalLibrary.prototype.__proto__ = events.EventEmitter.prototype

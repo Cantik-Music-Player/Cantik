@@ -16,6 +16,15 @@ class LocalLibraryComponent extends React.Component
 
     do @renderArtistsList
 
+    @props.localLibrary.on('library_path_change', =>
+      do @renderArtistsList)
+
+    @props.localLibrary.on('library_loading', =>
+      @setState showing: 'loading')
+
+    @props.localLibrary.on('library_loaded', =>
+      do @renderArtistsList)
+
   renderMessage: (msg) ->
     <div className="msg-info">
       <h1>{msg}</h1>
@@ -100,6 +109,8 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.getArtists((artists) =>
       if artists.length is 0 and @props.localLibrary.localLibrary is ''
         @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
+      else if artists.length is 0
+        @setState {showing: 'msg', msg: 'Empty library'}
       else
         Artwork.getArtistImage(artist) for artist in artists
         coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
