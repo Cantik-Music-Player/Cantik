@@ -13,6 +13,7 @@ class LocalLibraryComponent extends React.Component
     }
 
     @temporaryCache = null
+    @stopRendering = false
 
     do @renderArtistsList
 
@@ -20,6 +21,7 @@ class LocalLibraryComponent extends React.Component
       do @renderArtistsList)
 
     @props.localLibrary.on('library_loading', =>
+      @stopRendering = true
       @setState showing: 'loading')
 
     @props.localLibrary.on('library_loaded', =>
@@ -107,23 +109,26 @@ class LocalLibraryComponent extends React.Component
     @setState showing: 'loading'
 
     @props.localLibrary.getArtists((artists) =>
-      if artists.length is 0 and @props.localLibrary.localLibrary is ''
-        @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
-      else if artists.length is 0
-        @setState {showing: 'msg', msg: 'Empty library'}
-      else
-        Artwork.getArtistImage(artist) for artist in artists
-        coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
-        @temporaryCache = <div>
-          {<div className="figure" onClick={@renderAlbumsList.bind(@, artist)}>
-            <div className="fallback-artist">
-              <div className="image" style={{backgroundImage: "url('#{coverPath}#{artist}')"}}>
+      if not @stopRendering
+        if artists.length is 0 and @props.localLibrary.localLibrary is ''
+          @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
+        else if artists.length is 0
+          @setState {showing: 'msg', msg: 'Empty library'}
+        else
+          Artwork.getArtistImage(artist) for artist in artists
+          coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
+          @temporaryCache = <div>
+            {<div className="figure" onClick={@renderAlbumsList.bind(@, artist)}>
+              <div className="fallback-artist">
+                <div className="image" style={{backgroundImage: "url('#{coverPath}#{artist}')"}}>
+                </div>
               </div>
-            </div>
-            <div className="caption">{artist}</div>
-          </div> for artist in artists}
-        </div>
-        @setState showing: 'cache')
+              <div className="caption">{artist}</div>
+            </div> for artist in artists}
+          </div>
+          @setState showing: 'cache'
+      else
+        @stopRendering = false)
 
   render: ->
     if @state.showing is 'loading'
