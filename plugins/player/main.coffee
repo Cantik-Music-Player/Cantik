@@ -26,7 +26,7 @@ class Player
   playTrack: (track) ->
     if track?
       @playingTrack = track
-      @emit('track_changed', @)
+      @emit('track_changed', track)
     @playing = true
     @emit('play_state_changed', @)
 

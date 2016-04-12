@@ -51,6 +51,8 @@ class PlayerComponent extends React.Component
   updateDuration: ->
     @setState duration: formatTime @refs.audioObject.duration
 
+    @props.player.emit('duration_change', @refs.audioObject.duration)
+
     @refs.progressBar.noUiSlider.updateOptions({
       range: {
         min: 0,
@@ -60,6 +62,8 @@ class PlayerComponent extends React.Component
 
   updateCurrentTime: ->
     @setState currentTime: formatTime @refs.audioObject.currentTime
+
+    @props.player.emit('current_time_change', @refs.audioObject.currentTime)
 
     @refs.progressBar.noUiSlider.set(@refs.audioObject.currentTime)
 
