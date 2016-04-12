@@ -14,7 +14,10 @@ class SettingsComponent extends React.Component
     @setState display: 'none'
 
   generateField: (name, value, type, plugin) ->
-    @generateTextInput(name, value, plugin) if type is 'text'
+    <div key={"{#{name}-#{plugin}}"}>
+      {@generateTextInput(name, value, plugin) if type is 'text'}
+      {@generatePasswordInput(name, value, plugin) if type is 'password'}
+    </div>
 
   setSetting: (plugin, name, e) ->
     @settings[plugin][name].value = e.target.value
@@ -24,6 +27,14 @@ class SettingsComponent extends React.Component
       <label htmlFor={name} className="col-md-2 control-label">{name}</label>
       <div className="col-md-10">
         <input type="text" className="form-control" id={name} defaultValue={value} placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
+      </div>
+    </div>
+
+  generatePasswordInput: (name, value, plugin) ->
+    <div className="form-group">
+      <label htmlFor={name} className="col-md-2 control-label">{name}</label>
+      <div className="col-md-10">
+        <input type="password" className="form-control" id={name} defaultValue={value} placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
       </div>
     </div>
 
