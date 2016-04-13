@@ -19,6 +19,11 @@ app.on('ready', function() {
   window.setMenu(null);
   window.loadUrl('file://' + __dirname + '/../static/index.html');
 
+  // Avoid the window title to change
+  window.on('page-title-updated', function(event){
+    event.preventDefault();
+  });
+
   // If "dev" in command line args open the dev tools
   if(process.argv.indexOf('dev') > -1){
     window.webContents.openDevTools();
