@@ -1,3 +1,32 @@
 language: node_js
 node_js:
   - "stable"
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+
+after_success:
+  - npm install electron-packager -g
+  - electron-packager ./ Cantik --platform=all --arch=all
+  - zip -r cantik-linux-x64 Cantik-linux-x64
+  - zip -r cantik-linux-ia32 Cantik-linux-ia32
+  - zip -r cantik-darwin-x64 Cantik-darwin-x64
+  - zip -r cantik-win32-x64 Cantik-win32-x64
+  - zip -r cantik-win32-ia32 Cantik-win32-ia32
+  on:
+    tags: true
+
+deploy:
+  provider: releases
+  api_key: "87c1d2566e5c50b222e0b94d0d37b773eb11a05b"
+  file:
+    - "cantik-linux-x64"
+    - "cantik-linux-ia32"
+    - "cantik-darwin-x64"
+    - "cantik-win32-x64"
+    - "cantik-win32-ia32"
+  skip_cleanup: true
+  on:
+    tags: true
