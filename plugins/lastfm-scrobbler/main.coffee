@@ -32,8 +32,8 @@ class LastfmScrobbler
 
   connect: ->
     @lastfm = new Lastfm({
-      api_key: 'xxxxxxxxxxxxxxx',
-      api_secret: 'xxxxxxxxxxxxxxx',
+      api_key: '679472ce464ecfadc3d3a099649e0545',
+      api_secret: '1024a74f7846ed0fcfe6cdbfb2289452',
       username: @username,
       password: @password
     })
