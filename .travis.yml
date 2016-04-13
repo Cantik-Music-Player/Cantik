@@ -15,11 +15,11 @@ deploy:
   api_key:
     secure: kR6JnlHTXP+Fi7y9/6fsCfgq4ao+/fuE6us34zo+1lu4WiBQ8W1vFu4pZMGUDXpGIHIoyX3d5yJu4V/WzFo5pe7Vj22/srlzqOxJ+jUdBUk8WXr6blcXkvGxkiqQthIQTz/qNdpYhLqK6+Fj9ZzzpJz+UGFp+KxbdAGkvX5LazFmKir0IIJKMHRuGALUYM/Hq1mh9VbSmVHdLZf9CrRdReysxNMPUdIcRNKVAKjosQwEyxAU+cgdY7F9gbEd1wCO2kMMIzLWbok9RVAOl59RUtk5TyMO7PbU4elVCUrBblh0i/YlGO1oXsZkv06VZTmDUTDFOcqmvkPooMgBh8k0KlaT+B4ZXzae+pcse/6O0pvABzWsG1OXqudbcb5TdgwsyCNwYifag142nwvQSOlf8xyyvi0WO5CJgCRXzQRDcrDwV7hzR6+p2IwowBlORCJtwbYL1BbX0h29LdWJ/gyskz62ZD7XLLbiwl8J/o6qXDXEa2PO+zVrtITpXwh0skwNl9E0snsl+qhJM7zBprP1n4bgRX2DceKzoJSkvwQ9T6eyfTVR5yz/xKj4JOZuiU84plPMJ4jMiWM0TKwIE9h2jcFqDvFIaNrFBYjmQtMpBLRpBqhlfPSsOLI7wpGp6OEzSyB/zdwz+dS1SP5hIpgAIWZ8+V0xIY7jVcmnrESKksw=
   file:
-    - "cantik-linux-x64"
-    - "cantik-linux-ia32"
-    - "cantik-darwin-x64"
-    - "cantik-win32-x64"
-    - "cantik-win32-ia32"
+    - "cantik-linux-x64.zip"
+    - "cantik-linux-ia32.zip"
+    - "cantik-darwin-x64.zip"
+    - "cantik-win32-x64.zip"
+    - "cantik-win32-ia32.zip"
   skip_cleanup: true
   on:
     tags: true
