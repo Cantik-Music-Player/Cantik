@@ -49,16 +49,16 @@ class SettingsComponent extends React.Component
       <label htmlFor={name} className="col-md-2 control-label">{name}</label>
       <div className="col-md-10">
         <input type="text" className="form-control" id={name} defaultValue={value}
-        placeholder={name} onChange={@setSetting.bind(@, plugin, name)}
-        onSelect={@openFileChooser.bind(@)} />
+        placeholder={name} onSelect={@openFileChooser.bind(@, plugin, name)} />
       </div>
     </div>
 
-  openFileChooser: (e) ->
+  openFileChooser: (plugin, name, e) ->
     if not @dialog? or not @dialog  # Do not show dialog when getting back focus after closing this dialog
       @dialog = true
-      path = dialog.showOpenDialog({properties: [ 'openFile', 'openDirectory', 'multiSelections']})
+      path = dialog.showOpenDialog({properties: [ 'openFile', 'openDirectory', 'multiSelections']})[0]
       e.target.value = path if path?
+      @settings[plugin][name].value = path if path?
     else
       @dialog = false
 
