@@ -1,6 +1,9 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
+remote = require 'remote'
+dialog = remote.require 'dialog'
+
 module.exports.SettingsComponent=
 class SettingsComponent extends React.Component
   constructor: (props) ->
@@ -17,6 +20,7 @@ class SettingsComponent extends React.Component
     <div key={"{#{name}-#{plugin}}"}>
       {@generateTextInput(name, value, plugin) if type is 'text'}
       {@generatePasswordInput(name, value, plugin) if type is 'password'}
+      {@generateFileInput(name, value, plugin) if type is 'file'}
     </div>
 
   setSetting: (plugin, name, e) ->
@@ -26,7 +30,8 @@ class SettingsComponent extends React.Component
     <div className="form-group">
       <label htmlFor={name} className="col-md-2 control-label">{name}</label>
       <div className="col-md-10">
-        <input type="text" className="form-control" id={name} defaultValue={value} placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
+        <input type="text" className="form-control" id={name} defaultValue={value}
+        placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
       </div>
     </div>
 
@@ -34,9 +39,28 @@ class SettingsComponent extends React.Component
     <div className="form-group">
       <label htmlFor={name} className="col-md-2 control-label">{name}</label>
       <div className="col-md-10">
-        <input type="password" className="form-control" id={name} defaultValue={value} placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
+        <input type="password" className="form-control" id={name} defaultValue={value}
+        placeholder={name} onChange={@setSetting.bind(@, plugin, name)} />
       </div>
     </div>
+
+  generateFileInput: (name, value, plugin) ->
+    <div className="form-group">
+      <label htmlFor={name} className="col-md-2 control-label">{name}</label>
+      <div className="col-md-10">
+        <input type="text" className="form-control" id={name} defaultValue={value}
+        placeholder={name} onChange={@setSetting.bind(@, plugin, name)}
+        onSelect={@openFileChooser.bind(@)} />
+      </div>
+    </div>
+
+  openFileChooser: (e) ->
+    if not @dialog? or not @dialog  # Do not show dialog when getting back focus after closing this dialog
+      @dialog = true
+      path = dialog.showOpenDialog({properties: [ 'openFile', 'openDirectory', 'multiSelections']})
+      e.target.value = path if path?
+    else
+      @dialog = false
 
   saveSettings: (e) ->
     @props.settings.setSettings @settings
