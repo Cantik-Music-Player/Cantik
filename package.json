@@ -30,7 +30,9 @@
     "musicmetadata": "^2.0.2",
     "disconnect": "^0.7.2",
     "nouislider": "^8.3.0",
-    "moment": "^2.12.0"
+    "moment": "^2.12.0",
+    "simple-lastfm": "^1.0.5",
+    "pouchdb": "^5.2.1"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
