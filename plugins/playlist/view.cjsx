@@ -1,6 +1,10 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
+remote = require 'remote'
+Menu = remote.require 'menu'
+MenuItem = remote.require 'menu-item'
+
 module.exports.PlaylistComponent=
 class PlaylistComponent extends React.Component
   constructor: (props) ->
@@ -28,6 +32,8 @@ class PlaylistComponent extends React.Component
       else
         track.class = null
 
+    index = 0
+
     <div id="playlist">
       <table className="table table-striped table-hover fixed">
         <thead>
@@ -41,15 +47,31 @@ class PlaylistComponent extends React.Component
       </table>
       <table className="table table-striped table-hover list">
         <tbody>
-          {<tr className={track.class} key={track.metadata.title}>
+          {<tr className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"} ref={"track#{index}"}>
             <td>{track.metadata.title}</td>
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
             <td>{track.metadata.duration}</td>
+            {index++}
           </tr> for track in @state.tracklist}
         </tbody>
       </table>
     </div>
+
+  componentDidUpdate: ->
+    # Add menu for each track
+    index = 0
+    for _, track of @refs
+      do (index) =>
+        # MENU
+        menu = new Menu()
+        menu.append(new MenuItem({ label: 'Delete from playlist', click: =>
+          @props.playlist.deleteTrack index}))
+
+        track.addEventListener('contextmenu', (e) ->
+          menu.popup(remote.getCurrentWindow()))
+
+      index++
 
 module.exports.show = (playlist, element) ->
   ReactDOM.render(

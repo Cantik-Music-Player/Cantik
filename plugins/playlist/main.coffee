@@ -4,6 +4,8 @@ require 'coffee-react/register'
 PlaylistComponent = require('./view.cjsx').PlaylistComponent
 showPlaylist = require('./view.cjsx').show
 
+deleteValueFromArray = require('../../src/utils').deleteValueFromArray
+
 module.exports =
 class Playlist
   constructor: (@pluginManager) ->
@@ -44,6 +46,15 @@ class Playlist
 
   addTracks: (tracks) ->
     @addTrack t for t in tracks
+
+  deleteTrack: (trackIndex) ->
+    @tracklistHistory = deleteValueFromArray(@tracklist[trackIndex], @tracklistHistory)
+    @tracklist.splice(trackIndex, 1)
+
+    @tracklistIndex-- if trackIndex <= @tracklistIndex
+    @tracklistHistoryIndex-- if @tracklistHistoryIndex > -1 + @tracklistHistory.length
+
+    @emit('tracklist_changed', @tracklist)
 
   cleanPlaylist: ->
     @tracklist = []
