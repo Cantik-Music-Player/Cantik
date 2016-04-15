@@ -17,7 +17,7 @@ class LocalLibrary
     @loading = false
     @userData = app.getPath 'userData'
     @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source',
-                                                           null, true)
+                                                           @goHome.bind(@), true)
 
     do @initDB
     do @show
@@ -27,6 +27,11 @@ class LocalLibrary
     @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library', 'Library Path', 'file', '')
     @parseLibrary @localLibrary if @localLibrary != ''
 
+    # Avoid going home when local library was not showed
+    @preventGoHome = false
+    $('a[data-toggle="tab"][href="#local-library"]').on('shown.bs.tab', =>
+      @preventGoHome = true)
+
     # Update library if path changes
     @pluginManager.plugins.settings.on('Local Library-Library Path-change', (path) =>
       @localLibrary = path
@@ -35,6 +40,10 @@ class LocalLibrary
 
   show: ->
     showLocalLibrary(@, @element)
+
+  goHome: ->
+    @emit('go_home', @) if not @preventGoHome
+    @preventGoHome = false
 
   getArtists: (callback) ->
     if not @artists or @artists?.length is 0

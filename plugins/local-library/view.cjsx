@@ -27,6 +27,9 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.on('library_loaded', =>
       do @renderArtistsList)
 
+    @props.localLibrary.on('go_home', =>
+      do @renderArtistsList)
+
   renderMessage: (msg) ->
     <div className="msg-info">
       <h1>{msg}</h1>
