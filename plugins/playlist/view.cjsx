@@ -46,8 +46,8 @@ class PlaylistComponent extends React.Component
         </thead>
       </table>
       <table className="table table-striped table-hover list">
-        <tbody>
-          {<tr className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"} ref={"track#{index}"}>
+        <tbody ref="tbody" onDragOver={@dragOver.bind(@)}>
+          {<tr draggable="true" onDragEnd={@dragEnd.bind(@)} onDragStart={@dragStart.bind(@)} className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"} ref={"track#{index}"}>
             <td>{track.metadata.title}</td>
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
@@ -72,6 +72,23 @@ class PlaylistComponent extends React.Component
           menu.popup(remote.getCurrentWindow()))
 
       index++
+
+  dragStart: (e) ->
+    @placeholder = document.createElement("tr")
+    @placeholder.className = "placeholder"
+    @dragged = e.currentTarget
+    e.dataTransfer.effectAllowed = 'move'
+
+  dragEnd: (e) ->
+    @dragged.parentNode.removeChild(@placeholder)
+
+  dragOver: (e) ->
+    e.preventDefault()
+    @dragged.style.display = "none"
+
+    if e.target.className != "placeholder" and e.target != @refs.tbody
+      console.log e.target
+      e.target.parentNode.parentNode.insertBefore(@placeholder, e.target)
 
 module.exports.show = (playlist, element) ->
   ReactDOM.render(

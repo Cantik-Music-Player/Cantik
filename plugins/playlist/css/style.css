@@ -28,3 +28,9 @@
 #playlist table.list tr td:nth-child(4){
   width: 10%;
 }
+
+#playlist .placeholder {background: rgb(255,240,120);}
+#playlist .placeholder:before {
+  content: "Drop here";
+  color: rgb(225,210,90);
+}
