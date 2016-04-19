@@ -76,6 +76,7 @@ class PlaylistComponent extends React.Component
   dragStart: (e) ->
     @placeholder = document.createElement("tr")
     @placeholder.className = "placeholder"
+    @placeholder.innerHTML = e.currentTarget.innerHTML
     @dragged = e.currentTarget
     e.dataTransfer.effectAllowed = 'move'
 
@@ -87,8 +88,7 @@ class PlaylistComponent extends React.Component
     @dragged.style.display = "none"
 
     if e.target.className != "placeholder" and e.target != @refs.tbody
-      console.log e.target
-      e.target.parentNode.parentNode.insertBefore(@placeholder, e.target)
+      e.target.parentNode.parentNode.insertBefore(@placeholder, e.target.parentNode)
 
 module.exports.show = (playlist, element) ->
   ReactDOM.render(
