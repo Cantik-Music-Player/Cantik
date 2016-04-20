@@ -56,6 +56,12 @@ class Playlist
 
     @emit('tracklist_changed', @tracklist)
 
+  moveTrack: (from, to) ->
+    currentTrack = @tracklist[@tracklistIndex]
+    @tracklist.splice(to, 0, @tracklist.splice(from, 1)[0])
+    @tracklistIndex = @tracklist.indexOf(currentTrack)
+    @emit('tracklist_changed', @tracklist)
+
   cleanPlaylist: ->
     @tracklist = []
     @tracklistIndex = -1

@@ -47,7 +47,9 @@ class PlaylistComponent extends React.Component
       </table>
       <table className="table table-striped table-hover list">
         <tbody ref="tbody" onDragOver={@dragOver.bind(@)}>
-          {<tr draggable="true" onDragEnd={@dragEnd.bind(@)} onDragStart={@dragStart.bind(@)} className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"} ref={"track#{index}"}>
+          {<tr draggable="true" onDragEnd={@dragEnd.bind(@)} onDragStart={@dragStart.bind(@)}
+               className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"}
+               data-id={index} ref={"track#{index}"}>
             <td>{track.metadata.title}</td>
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
@@ -75,7 +77,7 @@ class PlaylistComponent extends React.Component
 
   dragStart: (e) ->
     @placeholder = document.createElement("tr")
-    @placeholder.className = "placeholder"
+    @placeholder.className = e.currentTarget.className
     @placeholder.innerHTML = e.currentTarget.innerHTML
     @dragged = e.currentTarget
     e.dataTransfer.effectAllowed = 'move'
@@ -83,12 +85,29 @@ class PlaylistComponent extends React.Component
   dragEnd: (e) ->
     @dragged.parentNode.removeChild(@placeholder)
 
+    from = Number(@dragged.dataset.id)
+    to = Number(@over.dataset.id)
+    to-- if from < to
+    to++ if @nodePlacement is 'after'
+    @props.playlist.moveTrack(from, to)
+
   dragOver: (e) ->
     e.preventDefault()
     @dragged.style.display = "none"
 
     if e.target.className != "placeholder" and e.target != @refs.tbody
-      e.target.parentNode.parentNode.insertBefore(@placeholder, e.target.parentNode)
+      # Inside the dragOver method
+      relY = e.clientY - e.target.parentNode.parentNode.offsetTop
+      height = e.target.parentNode.parentNode.offsetHeight / 2
+
+      @over = e.target.parentNode
+
+      if relY > height
+        @nodePlacement = "after"
+        e.target.parentNode.parentNode.insertBefore(@placeholder, e.target.parentNode.nextElementSibling)
+      else if relY < height
+        @nodePlacement = "before"
+        e.target.parentNode.parentNode.insertBefore(@placeholder, e.target.parentNode)
 
 module.exports.show = (playlist, element) ->
   ReactDOM.render(
