@@ -46,4 +46,4 @@ describe "Playlist Component", ->
     html = document.getElementsByTagName("body")[0].innerHTML.replace(/data-reactid="[\.a-z0-9\$ ]*"/gi, '')
 
     assert.equal(html,
-    '<div id="playlist" ><table class="table table-striped table-hover fixed" ><thead ><tr ><th >Title</th><th >Artist</th><th >Album</th><th >Duration</th></tr></thead></table><span >0</span><span >1</span><table class="table table-striped table-hover list" ><tbody ><tr class="null track" ><td >Title</td><td >Artist 1</td><td >Album</td><td >100</td></tr><tr class="info track" ><td >Title 2</td><td >Artist 1</td><td >Album</td><td >100</td></tr></tbody></table></div>')
+    '<div id="playlist" ><table class="table table-striped table-hover fixed" ><thead ><tr ><th >Title</th><th >Artist</th><th >Album</th><th >Duration</th></tr></thead></table><span >0</span><span >1</span><table class="table table-striped table-hover list" ><tbody ><tr draggable="true" class="null track" data-id="0" ><td >Title</td><td >Artist 1</td><td >Album</td><td >100</td></tr><tr draggable="true" class="info track" data-id="1" ><td >Title 2</td><td >Artist 1</td><td >Album</td><td >100</td></tr></tbody></table></div>')
