@@ -3,6 +3,10 @@ React = require 'react'
 ReactDOM = require 'react-dom'
 Artwork = require '../../src/artwork'
 
+remote = require 'remote'
+Menu = remote.require 'menu'
+MenuItem = remote.require 'menu-item'
+
 module.exports.LocalLibraryComponent=
 class LocalLibraryComponent extends React.Component
   constructor: (props) ->
@@ -51,6 +55,13 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.pluginManager.plugins.playlist.tracklistIndex = -1 + tracks.indexOf trackToPlay
     @props.localLibrary.pluginManager.plugins.player.next()
 
+  addTrackToPlaylist: (track) ->
+    track = track.doc
+    @props.localLibrary.pluginManager.plugins.playlist.addTracks([track])
+
+  popupMenu: (menu) ->
+    menu.popup(remote.getCurrentWindow())
+
   renderAlbum: (artist, album) ->
     @props.localLibrary.history.addHistoryEntry(@renderAlbum.bind(@, artist, album))
     @setState showing: 'loading'
@@ -58,6 +69,24 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.getAlbumTracks(artist, album, (tracks) =>
       Artwork.getAlbumImage(artist, album)
       coverPath = "file:///#{@props.localLibrary.userData}/images/albums/".replace(/\\/g, '/')
+
+      # Add menu for each track
+      tracksDOM = []
+      for track in tracks
+        do (track) =>
+          # MENU
+          menu = new Menu()
+          menu.append(new MenuItem({ label: 'Add to playlist', click: =>
+            @addTrackToPlaylist(track)}))
+
+          tempTrack = <tr onDoubleClick={@addTracksToPlaylist.bind(@, track, tracks)} onContextMenu={@popupMenu.bind(@, menu)}>
+            <td>{track.doc.metadata.track.no}</td>
+            <td>{track.doc.metadata.title}</td>
+            <td>{track.doc.metadata.duration}</td>
+          </tr>
+
+          tracksDOM.push(tempTrack)
+
       @temporaryCache = <div className="album">
         <div className="album-background" style={{backgroundImage: "url('#{coverPath}#{artist} - #{album}')"}}>
         </div>
@@ -81,11 +110,7 @@ class LocalLibraryComponent extends React.Component
               </tr>
             </thead>
             <tbody>
-              {<tr onDoubleClick={@addTracksToPlaylist.bind(@, track, tracks)}>
-                <td>{track.doc.metadata.track.no}</td>
-                <td>{track.doc.metadata.title}</td>
-                <td>{track.doc.metadata.duration}</td>
-              </tr> for track in tracks}
+              {tracksDOM}
             </tbody>
           </table>
         </div>
