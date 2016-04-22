@@ -34,6 +34,9 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.on('go_home', =>
       do @renderArtistsList)
 
+    @props.localLibrary.on('filter', (filter) =>
+      @filterLibrary filter)
+
   renderMessage: (msg) ->
     <div className="msg-info">
       <h1>{msg}</h1>
@@ -46,6 +49,14 @@ class LocalLibraryComponent extends React.Component
       <div className="sk-cube4 sk-cube"></div>
       <div className="sk-cube3 sk-cube"></div>
     </div>
+
+  filterLibrary: (filter) =>
+    @props.localLibrary.history.addHistoryEntry(@filterLibrary.bind(@, filter))
+    @setState showing: 'loading'
+
+    @props.localLibrary.search(filter, (tracks) =>
+      @temporaryCache = @buildTrackList(tracks, null, null, null, filter)
+      @setState showing: 'cache')
 
   addTracksToPlaylist: (trackToPlay, tracks) ->
     tracksDoc = (track.doc for track in tracks)
@@ -62,6 +73,58 @@ class LocalLibraryComponent extends React.Component
   popupMenu: (menu) ->
     menu.popup(remote.getCurrentWindow())
 
+  buildTrackList: (tracks, artist, album, coverPath, searchQuery) ->
+    # Add menu for each track
+    tracksDOM = []
+    for track in tracks
+      do (track) =>
+        # MENU
+        menu = new Menu()
+        menu.append(new MenuItem({ label: 'Add to playlist', click: =>
+          @addTrackToPlaylist(track)}))
+
+        tempTrack = <tr onDoubleClick={@addTracksToPlaylist.bind(@, track, tracks)} onContextMenu={@popupMenu.bind(@, menu)}>
+          <td>{track.doc.metadata.track.no}</td>
+          <td>{track.doc.metadata.title}</td>
+          {<td>{track.doc.metadata.album}</td> if searchQuery?}
+          {<td>{track.doc.metadata.artist[0]}</td> if searchQuery?}
+          <td>{track.doc.metadata.duration}</td>
+        </tr>
+
+        tracksDOM.push(tempTrack)
+
+    <div className="album">
+      <div className="album-background" style={{backgroundImage: "url('#{coverPath}#{artist} - #{album}')"}}>
+      </div>
+      <div className="album-container">
+        <div className="cover">
+          <img draggable="false" src="" className="cover" />
+        </div>
+
+        <div className="album-info">
+          {<h1 className="title"><b>{album}</b> - {artist}</h1> if not searchQuery?}
+          {<h1 className="title">Results for <b>"{searchQuery}"</b></h1> if searchQuery?}
+
+          <p className="description"></p>
+        </div>
+
+        <table className="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              {<th>Album</th> if searchQuery?}
+              {<th>Artist</th> if searchQuery?}
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tracksDOM}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   renderAlbum: (artist, album) ->
     @props.localLibrary.history.addHistoryEntry(@renderAlbum.bind(@, artist, album))
     @setState showing: 'loading'
@@ -69,52 +132,7 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.getAlbumTracks(artist, album, (tracks) =>
       Artwork.getAlbumImage(artist, album)
       coverPath = "file:///#{@props.localLibrary.userData}/images/albums/".replace(/\\/g, '/')
-
-      # Add menu for each track
-      tracksDOM = []
-      for track in tracks
-        do (track) =>
-          # MENU
-          menu = new Menu()
-          menu.append(new MenuItem({ label: 'Add to playlist', click: =>
-            @addTrackToPlaylist(track)}))
-
-          tempTrack = <tr onDoubleClick={@addTracksToPlaylist.bind(@, track, tracks)} onContextMenu={@popupMenu.bind(@, menu)}>
-            <td>{track.doc.metadata.track.no}</td>
-            <td>{track.doc.metadata.title}</td>
-            <td>{track.doc.metadata.duration}</td>
-          </tr>
-
-          tracksDOM.push(tempTrack)
-
-      @temporaryCache = <div className="album">
-        <div className="album-background" style={{backgroundImage: "url('#{coverPath}#{artist} - #{album}')"}}>
-        </div>
-        <div className="album-container">
-          <div className="cover">
-            <img draggable="false" src="" className="cover" />
-          </div>
-
-          <div className="album-info">
-            <h1 className="title"><b>{album}</b> - {artist}</h1>
-
-            <p className="description"></p>
-          </div>
-
-          <table className="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Duration</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tracksDOM}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      @temporaryCache = @buildTrackList(tracks, artist, album, coverPath)
       @setState showing: 'cache')
 
   renderAlbumsList: (artist) ->

@@ -8,6 +8,8 @@ path = require 'path'
 LocalLibraryComponent = require('./view.cjsx').LocalLibraryComponent
 showLocalLibrary = require('./view.cjsx').show
 
+PouchDB.plugin(require('pouchdb-quick-search'))
+
 module.exports =
 class LocalLibrary
   constructor: (@pluginManager) ->
@@ -38,8 +40,19 @@ class LocalLibrary
       @emit('library_path_change', @)
       @parseLibrary @localLibrary)
 
+  filterLibrary: (query) ->
+    @emit('filter', query)
+
   show: ->
     showLocalLibrary(@, @element)
+
+  search: (query, callback) ->
+    @db.search({
+      query: query,
+      fields: ['metadata.title', 'metadata.artist'],
+      include_docs: true
+    }).then((res) =>
+      callback res.rows)
 
   goHome: ->
     @emit('go_home', @) if not @preventGoHome

@@ -1,0 +1,10 @@
+{
+  "name": "history",
+  "version": "0.0.1",
+  "consumedServices": {
+    "sidebar": "^0.0.1",
+    "local-library": "^0.0.1"
+  },
+  "DOMContainer": "#sidebar",
+  "DOMOrder": "before"
+}
