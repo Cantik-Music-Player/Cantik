@@ -5,6 +5,8 @@ remote = require 'remote'
 Menu = remote.require 'menu'
 MenuItem = remote.require 'menu-item'
 
+formatTime = require('../../src/utils').formatTime
+
 module.exports.PlaylistComponent=
 class PlaylistComponent extends React.Component
   constructor: (props) ->
@@ -53,7 +55,7 @@ class PlaylistComponent extends React.Component
             <td>{track.metadata.title}</td>
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
-            <td>{track.metadata.duration}</td>
+            <td>{formatTime(track.metadata.duration)}</td>
             {index++}
           </tr> for track in @state.tracklist}
         </tbody>

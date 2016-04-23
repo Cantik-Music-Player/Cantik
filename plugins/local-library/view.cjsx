@@ -7,6 +7,8 @@ remote = require 'remote'
 Menu = remote.require 'menu'
 MenuItem = remote.require 'menu-item'
 
+formatTime = require('../../src/utils').formatTime
+
 module.exports.LocalLibraryComponent=
 class LocalLibraryComponent extends React.Component
   constructor: (props) ->
@@ -88,7 +90,7 @@ class LocalLibraryComponent extends React.Component
           <td>{track.doc.metadata.title}</td>
           {<td>{track.doc.metadata.album}</td> if searchQuery?}
           {<td>{track.doc.metadata.artist[0]}</td> if searchQuery?}
-          <td>{track.doc.metadata.duration}</td>
+          <td>{formatTime(track.doc.metadata.duration)}</td>
         </tr>
 
         tracksDOM.push(tempTrack)
