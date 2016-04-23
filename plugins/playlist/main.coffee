@@ -41,7 +41,7 @@ class Playlist
     @emit('repeat_changed', @repeat)
 
   addTrack: (track) ->
-    @tracklist.push(track)
+    @tracklist.push(JSON.parse(JSON.stringify(track)))
     @emit('tracklist_changed', @tracklist)
 
   addTracks: (tracks) ->
