@@ -56,7 +56,7 @@ class LocalLibrary
       query: query,
       fields: ['metadata.title', 'metadata.artist'],
       include_docs: true
-    }).then((res) =>
+    }).then((res) ->
       callback res.rows)
 
   goHome: ->
@@ -74,19 +74,19 @@ class LocalLibrary
 
   getAlbums: (artist, callback) ->
     @db.query('artist/artist', {key: artist, include_docs: true}).then(
-              (result) ->
-                albums = []
-                for row in result.rows
-                  if row.doc.metadata?.album? and
-                     row.doc.metadata.album not in albums
-                    albums.push(row.doc.metadata.album)
-                callback albums)
+      (result) ->
+        albums = []
+        for row in result.rows
+          if row.doc.metadata?.album? and
+             row.doc.metadata.album not in albums
+            albums.push(row.doc.metadata.album)
+        callback albums)
 
   getAlbumTracks: (artist, album, callback) ->
     if album is "All tracks"
       @db.query('artist/artist', {key: artist, include_docs: true}).then(
-                (result) ->
-                  callback result.rows)
+        (result) ->
+          callback result.rows)
     else
       @db.query('album/album', {key: album, include_docs: true}).then((result) ->
         tracks = []
@@ -143,7 +143,6 @@ class LocalLibrary
         else if path.extname(filePath) in ['.ogg', '.flac', '.aac',
                                            '.mp3', '.m4a']
           @toTreat++
-
           do (filePath) =>
             @db.get(filePath, (err, data) =>
               if err?.status is 404
@@ -156,7 +155,7 @@ class LocalLibrary
                     @db.bulkDocs(@docToCreate, =>
                       @loading = false
                       @emit('library_loaded', @))
-                  )
+                )
               else
                 @toTreat--
                 if @toTreat is 0

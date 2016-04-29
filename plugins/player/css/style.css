@@ -11,7 +11,7 @@
   white-space: nowrap;
 
   border-collapse: separate;
-  border-spacing: 10px 0px;
+  border-spacing: 10px 0;
 }
 
 #player audio{
