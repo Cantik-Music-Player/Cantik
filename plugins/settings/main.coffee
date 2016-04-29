@@ -49,7 +49,7 @@ class Settings
       for settingName, settingParam of pluginSettings
         if settingParam.value != oldSettings[pluginName][settingName].value
           try
-              @emit("#{pluginName}-#{settingName}-change", settingParam.value)
+            @emit("#{pluginName}-#{settingName}-change", settingParam.value)
           catch error
 
     do @saveSettings

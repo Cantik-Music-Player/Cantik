@@ -18,15 +18,19 @@ class LocalLibrary
     @history = @pluginManager.plugins.history
     @loading = false
     @userData = app.getPath 'userData'
-    @element = @pluginManager.plugins.centralarea.addPanel('Local Library', 'Source',
-                                                           @goHome.bind(@), true)
+    @element = @pluginManager.plugins.centralarea.addPanel('Local Library',
+                                                           'Source',
+                                                           @goHome.bind(@),
+                                                           true)
 
     do @initDB
     do @show
 
     @pluginManager.plugins.centralarea
 
-    @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library', 'Library Path', 'file', '')
+    @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library',
+                                                               'Library Path',
+                                                               'file', '')
     @parseLibrary @localLibrary if @localLibrary != ''
 
     # Avoid going home when local library was not showed
@@ -35,10 +39,11 @@ class LocalLibrary
       @preventGoHome = true)
 
     # Update library if path changes
-    @pluginManager.plugins.settings.on('Local Library-Library Path-change', (path) =>
-      @localLibrary = path
-      @emit('library_path_change', @)
-      @parseLibrary @localLibrary)
+    @pluginManager.plugins.settings.on('Local Library-Library Path-change',
+                                       (path) =>
+                                         @localLibrary = path
+                                         @emit('library_path_change', @)
+                                         @parseLibrary @localLibrary)
 
   filterLibrary: (query) ->
     @emit('filter', query)
@@ -60,29 +65,34 @@ class LocalLibrary
 
   getArtists: (callback) ->
     if not @artists or @artists?.length is 0
-      @db.query('artistcount/artist', {reduce: true, group: true}, (err, results) =>
-        @artists = (a.key for a in results.rows)
-        callback @artists)
+      @db.query('artistcount/artist', {reduce: true, group: true},
+                (err, results) =>
+                  @artists = (a.key for a in results.rows)
+                  callback @artists)
     else
       callback @artists
 
   getAlbums: (artist, callback) ->
-    @db.query('artist/artist', {key: artist, include_docs: true}).then((result) ->
-      albums = []
-      for row in result.rows
-        if row.doc.metadata?.album?
-          albums.push(row.doc.metadata.album) if row.doc.metadata.album not in albums
-      callback albums)
+    @db.query('artist/artist', {key: artist, include_docs: true}).then(
+              (result) ->
+                albums = []
+                for row in result.rows
+                  if row.doc.metadata?.album? and
+                     row.doc.metadata.album not in albums
+                    albums.push(row.doc.metadata.album)
+                callback albums)
 
   getAlbumTracks: (artist, album, callback) ->
     if album is "All tracks"
-      @db.query('artist/artist', {key: artist, include_docs: true}).then((result) ->
-        callback result.rows)
+      @db.query('artist/artist', {key: artist, include_docs: true}).then(
+                (result) ->
+                  callback result.rows)
     else
       @db.query('album/album', {key: album, include_docs: true}).then((result) ->
         tracks = []
         for row in result.rows
-          tracks.push(row) if row.doc.metadata?.artist? and row.doc.metadata.artist[0] is artist
+          tracks.push(row) if row.doc.metadata?.artist? and
+                              row.doc.metadata.artist[0] is artist
         callback tracks)
 
   initDB: ->
@@ -130,7 +140,8 @@ class LocalLibrary
 
         if stat.isDirectory()
           @parseLibrary filePath
-        else if path.extname(filePath) in ['.ogg', '.flac', '.aac', '.mp3', '.m4a']
+        else if path.extname(filePath) in ['.ogg', '.flac', '.aac',
+                                           '.mp3', '.m4a']
           @toTreat++
 
           do (filePath) =>

@@ -13,10 +13,10 @@ class PluginManager
 
     # Get the plugins
     for file in files
-        if file[0] != '.'
-          filePath = "#{@pluginsBasePath}/#{file}"
-          if fs.statSync(filePath).isDirectory() and not @plugins[@sanitizePluginName path.basename(filePath)]?
-            @loadPlugin filePath
+      if file[0] != '.'
+        filePath = "#{@pluginsBasePath}/#{file}"
+        if fs.statSync(filePath).isDirectory() and not @plugins[@sanitizePluginName path.basename(filePath)]?
+          @loadPlugin filePath
 
   loadPlugin: (pluginPath) ->
     @loadPluginDepedencies(pluginPath)
@@ -33,12 +33,12 @@ class PluginManager
     if fs.existsSync(cssFolder) and fs.statSync(cssFolder).isDirectory()
       files = fs.readdirSync(cssFolder)
       for file in files
-          if file[0] != '.'
-            cssPath = "#{cssFolder}/#{file}"
-            if fs.statSync(cssPath).isDirectory()
-              @loadPluginCss cssPath
-            else
-              $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
+        if file[0] != '.'
+          cssPath = "#{cssFolder}/#{file}"
+          if fs.statSync(cssPath).isDirectory()
+            @loadPluginCss cssPath
+          else
+            $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
 
   createDOMElement: (pluginPath) ->
     packagejson = @loadPackageJSON(pluginPath)

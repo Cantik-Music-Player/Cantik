@@ -66,7 +66,6 @@ class PlaylistComponent extends React.Component
     # Add menu for each track
     index = 0
     for _, track of @refs
-      console.log _
       if _.startsWith('track')
         do (index) =>
           # MENU

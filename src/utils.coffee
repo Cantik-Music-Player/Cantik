@@ -13,5 +13,5 @@ module.exports.formatTime = (seconds) ->
 module.exports.deleteValueFromArray = (value, array) ->
   for i in [array.length - 1..0]
     if array[i] is value
-       array.splice(i, 1)
+      array.splice(i, 1)
   return array

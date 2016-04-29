@@ -3,8 +3,12 @@ Lastfm = require 'simple-lastfm'
 module.exports =
 class LastfmScrobbler
   constructor: (@pluginManager, @element) ->
-    @username = @pluginManager.plugins.settings.addSetting('Last.fm', 'Username', 'text', '')
-    @password = @pluginManager.plugins.settings.addSetting('Last.fm', 'Password', 'password', '')
+    @username = @pluginManager.plugins.settings.addSetting('Last.fm',
+                                                           'Username',
+                                                           'text', '')
+    @password = @pluginManager.plugins.settings.addSetting('Last.fm',
+                                                           'Password',
+                                                           'password', '')
 
     if @username != '' and @password != ''
       do @connect
@@ -28,7 +32,8 @@ class LastfmScrobbler
     @pluginManager.plugins.player.on('current_time_change', (currentTime) =>
       if currentTime / @currentTrackDuration > 0.5 and not @scrobble
         @scrobble = true
-        @scrobbleTrack(@currentTrack.metadata.artist[0], @currentTrack.metadata.title))
+        @scrobbleTrack(@currentTrack.metadata.artist[0],
+                       @currentTrack.metadata.title))
 
   connect: ->
     @lastfm = new Lastfm({

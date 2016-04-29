@@ -70,7 +70,7 @@
 #local-library .image-composite img:nth-child(2){
   width: 60%;
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 50%;
 }
 
@@ -78,7 +78,7 @@
   width: 60%;
   position: absolute;
   top: 50%;
-  left: 0px;
+  left: 0;
 }
 
 #local-library .image-composite img:nth-child(4){
