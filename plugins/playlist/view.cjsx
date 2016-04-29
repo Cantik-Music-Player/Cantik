@@ -66,16 +66,18 @@ class PlaylistComponent extends React.Component
     # Add menu for each track
     index = 0
     for _, track of @refs
-      do (index) =>
-        # MENU
-        menu = new Menu()
-        menu.append(new MenuItem({ label: 'Delete from playlist', click: =>
-          @props.playlist.deleteTrack index}))
+      console.log _
+      if _.startsWith('track')
+        do (index) =>
+          # MENU
+          menu = new Menu()
+          menu.append(new MenuItem({ label: 'Delete from playlist', click: =>
+            @props.playlist.deleteTrack index}))
 
-        track.addEventListener('contextmenu', (e) ->
-          menu.popup(remote.getCurrentWindow()))
+          track.addEventListener('contextmenu', (e) ->
+            menu.popup(remote.getCurrentWindow()))
 
-      index++
+        index++
 
   dragStart: (e) ->
     @placeholder = document.createElement("tr")
