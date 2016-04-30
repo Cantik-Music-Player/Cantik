@@ -28,13 +28,14 @@ class PlaylistComponent extends React.Component
 
   render: ->
     # Get track class
+    index = 0
     for track in @state.tracklist
+      track.index = index
+      index++
       if track is @state.currentTrack
         track.class = "info"
       else
         track.class = null
-
-    index = 0
 
     <div id="playlist">
       <table className="table table-striped table-hover fixed">
@@ -50,13 +51,12 @@ class PlaylistComponent extends React.Component
       <table className="table table-striped table-hover list">
         <tbody ref="tbody" onDragOver={@dragOver.bind(@)}>
           {<tr draggable="true" onDragEnd={@dragEnd.bind(@)} onDragStart={@dragStart.bind(@)}
-               className={"#{track.class} track"} key={"#{track.metadata.title}#{index}"}
-               data-id={index} ref={"track#{index}"}>
+               className={"#{track.class} track"} key={"#{track.metadata.title}#{track.index}"}
+               data-id={track.index} ref={"track#{track.index}"}>
             <td>{track.metadata.title}</td>
             <td>{track.metadata.artist[0]}</td>
             <td>{track.metadata.album}</td>
             <td>{formatTime(track.metadata.duration)}</td>
-            {index++}
           </tr> for track in @state.tracklist}
         </tbody>
       </table>
@@ -98,7 +98,7 @@ class PlaylistComponent extends React.Component
     e.preventDefault()
     @dragged.style.display = "none"
 
-    if e.target.className != "placeholder" and e.target != @refs.tbody
+    if e.target.parentNode != @placeholder and e.target != @refs.tbody
       # Inside the dragOver method
       relY = e.clientY - e.target.parentNode.parentNode.offsetTop
       height = e.target.parentNode.parentNode.offsetHeight / 2

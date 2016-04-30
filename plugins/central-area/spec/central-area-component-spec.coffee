@@ -17,7 +17,7 @@ describe "CentralArea Component", ->
     assert(e instanceof HTMLElement)
 
     # Clean data-react-id
-    html = document.getElementsByTagName("body")[0].innerHTML.replace(/data-reactid="[\.a-z0-9\$]*"/g, '')
+    html = document.getElementsByTagName("body")[0].innerHTML.replace(/ data-reactroot=""/g, '')
 
     assert.equal(html,
-    '<div class="panel panel-default" id="content" ><div class="panel-body" ><div class="tab-content" ><div class="tab-pane active" id="test" ></div><div class="tab-pane " id="test2" ></div></div></div></div>')
+    '<div class="panel panel-default" id="content"><div class="panel-body"><div class="tab-content"><div class="tab-pane active" id="test"></div><div class="tab-pane " id="test2"></div></div></div></div>')

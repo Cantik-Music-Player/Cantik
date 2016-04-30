@@ -43,7 +43,7 @@ describe "Playlist Component", ->
     assert(@playlist.on.calledWith('track_changed'))
 
     # Clean data-react-id
-    html = document.getElementsByTagName("body")[0].innerHTML.replace(/data-reactid="[\.a-z0-9\$ ]*"/gi, '')
+    html = document.getElementsByTagName("body")[0].innerHTML.replace(/ data-reactroot=""/g, '')
 
     assert.equal(html,
-    '<div id="playlist" ><table class="table table-striped table-hover fixed" ><thead ><tr ><th >Title</th><th >Artist</th><th >Album</th><th >Duration</th></tr></thead></table><span >0</span><span >1</span><table class="table table-striped table-hover list" ><tbody ><tr draggable="true" class="null track" data-id="0" ><td >Title</td><td >Artist 1</td><td >Album</td><td >01:40</td></tr><tr draggable="true" class="info track" data-id="1" ><td >Title 2</td><td >Artist 1</td><td >Album</td><td >01:40</td></tr></tbody></table></div>')
+    '<div id="playlist"><table class="table table-striped table-hover fixed"><thead><tr><th>Title</th><th>Artist</th><th>Album</th><th>Duration</th></tr></thead></table><table class="table table-striped table-hover list"><tbody><tr draggable="true" class="null track" data-id="0"><td>Title</td><td>Artist 1</td><td>Album</td><td>01:40</td></tr><tr draggable="true" class="info track" data-id="1"><td>Title 2</td><td>Artist 1</td><td>Album</td><td>01:40</td></tr></tbody></table></div>')
