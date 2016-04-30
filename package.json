@@ -6,7 +6,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "test": "mocha --timeout 200000 --compilers coffee:coffee-script/register plugins/**/spec/*-spec.coffee spec/*"
+    "test": "mocha --timeout 200000 --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul plugins/**/spec/*-spec.coffee spec/*",
+    "coverage": "./node_modules/.bin/istanbul report"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/cyprieng/Cantik---Electron/issues"
   },
-  "dependencies":{
+  "dependencies": {
     "electron-prebuilt": "^0.37.8",
     "coffee-script": "^1.10.0",
     "coffee-react": "^5.0.0",
@@ -36,10 +37,13 @@
     "pouchdb-quick-search": "^1.1.1"
   },
   "devDependencies": {
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.3",
-    "mocha-jsdom": "^1.1.0",
+    "coffee-coverage": "^1.0.1",
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
     "jsdom": "^8.0.4",
-    "mock-require": "^1.2.1"
+    "mocha": "^2.4.5",
+    "mocha-jsdom": "^1.1.0",
+    "mock-require": "^1.2.1",
+    "sinon": "^1.17.3"
   }
 }

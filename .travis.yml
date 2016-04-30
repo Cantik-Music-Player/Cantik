@@ -17,6 +17,7 @@ notifications:
     on_failure: change
 
 after_success:
+  - "npm coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   - ./deploy.sh
 
 deploy:
