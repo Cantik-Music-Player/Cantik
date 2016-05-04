@@ -41,9 +41,11 @@ class LocalLibrary
     # Update library if path changes
     @pluginManager.plugins.settings.on('Local Library-Library Path-change',
                                        (path) =>
-                                         @localLibrary = path
-                                         @emit('library_path_change', @)
-                                         @parseLibrary @localLibrary)
+                                         @flushDB(=>
+                                           @artists = null
+                                           @localLibrary = path
+                                           @emit('library_path_change', @)
+                                           @parseLibrary @localLibrary))
 
   filterLibrary: (query) ->
     @emit('filter', query)
@@ -95,7 +97,7 @@ class LocalLibrary
                               row.doc.metadata.artist[0] is artist
         callback tracks)
 
-  initDB: ->
+  initDB: (callback) ->
     @db = new PouchDB('library')
     @db.put({
       _id: '_design/artist',
@@ -104,24 +106,29 @@ class LocalLibrary
           map: 'function (doc) { emit(doc.metadata.artist[0]); }'
         }
       }
-    })
-    @db.put({
-      _id: '_design/artistcount',
-      views: {
-        'artist': {
-          map: 'function (doc) { emit(doc.metadata.artist[0]); }',
-          reduce: '_count'
+    }, =>
+      @db.put({
+        _id: '_design/artistcount',
+        views: {
+          'artist': {
+            map: 'function (doc) { emit(doc.metadata.artist[0]); }',
+            reduce: '_count'
+          }
         }
-      }
-    })
-    @db.put({
-      _id: '_design/album',
-      views: {
-        'album': {
-          map: 'function (doc) { emit(doc.metadata.album); }'
+      }, =>
+      @db.put({
+        _id: '_design/album',
+        views: {
+          'album': {
+            map: 'function (doc) { emit(doc.metadata.album); }'
+          }
         }
-      }
-    })
+      }, =>
+        do callback if callback?)))
+
+  flushDB: (callback) ->
+    @db.destroy(=>
+      @initDB callback)
 
   parseLibrary: (libraryPath) ->
     if libraryPath is @localLibrary
@@ -162,5 +169,9 @@ class LocalLibrary
                   @db.bulkDocs(@docToCreate, =>
                     @loading = false
                     @emit('library_loaded', @)))
+
+    if libraryPath is @localLibrary and @toTreat is 0
+      @loading = false
+      @emit('library_loaded', @)
 
 LocalLibrary.prototype.__proto__ = events.EventEmitter.prototype

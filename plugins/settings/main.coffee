@@ -41,8 +41,8 @@ class Settings
     do @saveSettings
 
   setSettings: (settings) ->
-    oldSettings = @settings
-    @settings = settings
+    oldSettings = JSON.parse(JSON.stringify(@settings))
+    @settings = JSON.parse(JSON.stringify(settings))
 
     # Emit events
     for pluginName, pluginSettings of settings
