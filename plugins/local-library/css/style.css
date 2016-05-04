@@ -124,3 +124,13 @@
   margin-right: 20px;
   margin-bottom: 20px;
 }
+
+#local-library .progress{
+}
+
+#local-library .progress-txt{
+  position: absolute;
+  top: 50%;
+  margin-right: auto;
+  margin-left: auto;
+}

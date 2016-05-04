@@ -150,6 +150,7 @@ class LocalLibrary
         else if path.extname(filePath) in ['.ogg', '.flac', '.aac',
                                            '.mp3', '.m4a']
           @toTreat++
+          @emit('totreat_updated', @toTreat)
           do (filePath) =>
             @db.get(filePath, (err, data) =>
               if err?.status is 404
@@ -158,6 +159,7 @@ class LocalLibrary
                   @docToCreate.push(t)
 
                   @toTreat--
+                  @emit('totreat_updated', @toTreat)
                   if @toTreat is 0
                     @db.bulkDocs(@docToCreate, =>
                       @loading = false
@@ -165,6 +167,7 @@ class LocalLibrary
                 )
               else
                 @toTreat--
+                @emit('totreat_updated', @toTreat)
                 if @toTreat is 0
                   @db.bulkDocs(@docToCreate, =>
                     @loading = false

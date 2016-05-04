@@ -27,11 +27,17 @@ class LocalLibraryComponent extends React.Component
       do @renderArtistsList)
 
     @props.localLibrary.on('library_loading', =>
+      @max = 0
       @stopRendering = true
       @setState showing: 'loading')
 
-    @props.localLibrary.on('library_loaded', =>
-      do @renderArtistsList)
+    @props.localLibrary.on('totreat_updated', (toTreat) =>
+      @max = toTreat if toTreat > @max
+      todo = @max - toTreat
+      @renderProgress(todo, @max))
+
+    # @props.localLibrary.on('library_loaded', =>
+    #   do @renderArtistsList)
 
     @props.localLibrary.on('go_home', =>
       do @renderArtistsList)
@@ -51,6 +57,18 @@ class LocalLibraryComponent extends React.Component
       <div className="sk-cube4 sk-cube"></div>
       <div className="sk-cube3 sk-cube"></div>
     </div>
+
+  renderProgress: (todo, max) ->
+    @temporaryCache = <div className="progress">
+      <div className="sk-folding-cube loading">
+        <div className="sk-cube1 sk-cube"></div>
+        <div className="sk-cube2 sk-cube"></div>
+        <div className="sk-cube4 sk-cube"></div>
+        <div className="sk-cube3 sk-cube"></div>
+      </div>
+      <h3 className="progress-txt">Scanning... {todo} / {max}</h3>
+    </div>
+    @setState showing: 'cache'
 
   filterLibrary: (filter) =>
     @props.localLibrary.history.addHistoryEntry(@filterLibrary.bind(@, filter))
