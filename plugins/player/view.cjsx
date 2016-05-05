@@ -121,7 +121,7 @@ class PlayerComponent extends React.Component
 
       <p className="track-artist">
         <span className="title">{@state.playingTrack.metadata?.title}</span>
-         -
+        {' - ' if @state.playingTrack.metadata?.title? and @state.playingTrack.metadata?.artist?[0]}
         <span className="artist">{@state.playingTrack.metadata?.artist?[0]}</span>
       </p>
       <div className="panel-body">
