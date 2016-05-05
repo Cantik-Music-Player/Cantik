@@ -36,8 +36,8 @@ class LocalLibraryComponent extends React.Component
       todo = @max - toTreat
       @renderProgress(todo, @max))
 
-    # @props.localLibrary.on('library_loaded', =>
-    #   do @renderArtistsList)
+    @props.localLibrary.on('library_loaded', =>
+      do @renderArtistsList)
 
     @props.localLibrary.on('go_home', =>
       do @renderArtistsList)
