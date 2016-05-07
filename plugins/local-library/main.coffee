@@ -41,6 +41,7 @@ class LocalLibrary
     # Update library if path changes
     @pluginManager.plugins.settings.on('Local Library-Library Path-change',
                                        (path) =>
+                                         @emit('library_loading', @)
                                          @flushDB(=>
                                            @artists = null
                                            @localLibrary = path
