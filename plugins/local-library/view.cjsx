@@ -163,6 +163,17 @@ class LocalLibraryComponent extends React.Component
       Artwork.getAlbumImage(artist, album) for album in albums
       coverPath = "file:///#{@props.localLibrary.userData}/images/albums/".replace(/\\/g, '/')
       @temporaryCache = <div>
+        <div className="figure" onClick={@renderAlbum.bind(@, artist, "All tracks")}>
+          <div className="fallback-album">
+            <div className="image-composite">
+              {<img src={"#{coverPath}#{artist} - #{albums[0]}"} /> if albums[0]?}
+              {<img src={"#{coverPath}#{artist} - #{albums[1]}"} /> if albums[1]?}
+              {<img src={"#{coverPath}#{artist} - #{albums[2]}"} /> if albums[2]?}
+              {<img src={"#{coverPath}#{artist} - #{albums[3]}"} /> if albums[3]?}
+            </div>
+          </div>
+          <div className="caption">All tracks</div>
+        </div>
         {<div className="figure" onClick={@renderAlbum.bind(@, artist, album)}>
           <div className="fallback-album"><div className="image" style={{backgroundImage: "url('#{coverPath}#{artist} - #{album}')"}}></div></div>
           <div className="caption">{album}</div>
