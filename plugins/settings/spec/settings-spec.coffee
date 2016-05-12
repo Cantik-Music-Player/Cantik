@@ -1,11 +1,12 @@
 mock = require 'mock-require'
 
-mock('remote', {
-  require: ->
-    {
+mock('electron', {
+  remote: {
+    app: {
       getPath: ->
         'abc'
     }
+  }
 })
 
 Settings = require '../main'

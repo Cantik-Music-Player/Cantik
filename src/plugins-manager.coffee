@@ -1,7 +1,7 @@
 fs = require('fs')
 path = require('path')
-remote = require('remote')
-app = remote.require('app')
+electron = require('electron')
+app = electron.remote.app
 
 module.exports =
 class PluginManager

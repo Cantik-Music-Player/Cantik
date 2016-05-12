@@ -1,7 +1,7 @@
 mock = require 'mock-require'
 
-mock('remote', {
-  require: ->
+mock('electron', {
+  remote: ''
 })
 
 require 'coffee-react/register'

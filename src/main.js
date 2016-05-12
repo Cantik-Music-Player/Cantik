@@ -1,7 +1,7 @@
-var app = require('app');
-var BrowserWindow = require('browser-window');
+var electron = require('electron');
+var app = electron.app;
+var BrowserWindow = electron.BrowserWindow;
 require('coffee-script/register');
-require('crash-reporter').start();
 
 var window = null;
 
@@ -17,7 +17,7 @@ app.on('ready', function() {
   window = new BrowserWindow({title: 'Cantik', icon: 'static/images/icon.png'});
   window.maximize();
   window.setMenu(null);
-  window.loadUrl('file://' + __dirname + '/../static/index.html');
+  window.loadURL('file://' + __dirname + '/../static/index.html');
 
   // Avoid the window title to change
   window.on('page-title-updated', function(event){

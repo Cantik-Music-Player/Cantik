@@ -1,7 +1,7 @@
 fs = require 'fs'
 events = require 'events'
-remote = require 'remote'
-app = remote.require 'app'
+electron = require('electron')
+app = electron.remote.app
 
 require 'coffee-react/register'
 SettingsComponent = require('./view.cjsx').SettingsComponent

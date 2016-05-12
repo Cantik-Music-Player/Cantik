@@ -1,6 +1,6 @@
 fs = require('fs')
-remote = require('remote')
-app = remote.require('app')
+electron = require('electron')
+app = electron.remote.app
 
 Discogs = require('disconnect').Client
 discogsClient = new Discogs({

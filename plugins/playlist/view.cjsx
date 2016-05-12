@@ -1,9 +1,10 @@
 React = require 'react'
 ReactDOM = require 'react-dom'
 
-remote = require 'remote'
-Menu = remote.require 'menu'
-MenuItem = remote.require 'menu-item'
+electron = require('electron')
+remote = electron.remote
+Menu = remote.Menu
+MenuItem = remote.MenuItem
 
 formatTime = require('../../src/utils').formatTime
 

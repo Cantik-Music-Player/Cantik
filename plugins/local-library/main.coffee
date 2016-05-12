@@ -1,7 +1,7 @@
 events = require 'events'
 fs = require 'fs'
-remote = require 'remote'
-app = remote.require 'app'
+electron = require('electron')
+app = electron.remote.app
 Track = require '../../src/track'
 path = require 'path'
 
