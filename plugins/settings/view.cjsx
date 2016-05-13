@@ -2,7 +2,7 @@ React = require 'react'
 ReactDOM = require 'react-dom'
 
 electron = require('electron')
-dialog = electron.dialog
+dialog = electron.remote.dialog
 
 module.exports.SettingsComponent=
 class SettingsComponent extends React.Component
