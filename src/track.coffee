@@ -4,9 +4,11 @@ mm = require('musicmetadata')
 module.exports =
 class Track
   constructor: (@path, callback) ->
-    mm(fs.createReadStream(@path), {duration: true}, (err, metadata) =>
+    stream = fs.createReadStream(@path)
+    mm(stream, {duration: true}, (err, metadata) =>
       if metadata?
         delete metadata.picture
         @metadata = metadata
+      stream.close()
       callback @
     )
