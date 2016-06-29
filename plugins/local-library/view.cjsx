@@ -67,7 +67,9 @@ class LocalLibraryComponent extends React.Component
         <div className="sk-cube4 sk-cube"></div>
         <div className="sk-cube3 sk-cube"></div>
       </div>
-      <h3 className="progress-txt">Scanning... {done} / {max}</h3>
+      <div className="progress-txt">
+        <h3>Scanning... {done} / {max}</h3>
+      </div>
     </div>
     @setState showing: 'cache'
 
