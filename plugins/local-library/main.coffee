@@ -70,8 +70,11 @@ class LocalLibrary
     if not @artists or @artists?.length is 0
       @db.query('artistcount/artist', {reduce: true, group: true},
                 (err, results) =>
-                  @artists = (a.key for a in results.rows)
-                  callback @artists)
+                  if results?
+                    @artists = (a.key for a in results.rows)
+                    callback @artists
+                  else
+                    callback [])
     else
       callback @artists
 
