@@ -10,6 +10,29 @@ MenuItem = remote.MenuItem
 
 formatTime = require('../../src/utils').formatTime
 
+
+module.exports.ImageComponent=
+class ImageComponent extends React.Component
+  constructor: (props) ->
+    super props
+
+    @state = {
+      image: @props.image
+    }
+
+    Artwork.getArtistImage(@props.artist, (path) =>
+      @setState image: path + '?')
+
+  render: ->
+    <div className="figure">
+      <div className="fallback-artist">
+        <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image}')"}}>
+        </div>
+      </div>
+      <div className="caption">{@props.artist}</div>
+    </div>
+
+
 module.exports.LocalLibraryComponent=
 class LocalLibraryComponent extends React.Component
   constructor: (props) ->
@@ -195,16 +218,9 @@ class LocalLibraryComponent extends React.Component
         else if artists.length is 0
           @setState {showing: 'msg', msg: 'Empty library'}
         else
-          Artwork.getArtistImage(artist) for artist in artists
           coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
           @temporaryCache = <div>
-            {<div className="figure" onClick={@renderAlbumsList.bind(@, artist)}>
-              <div className="fallback-artist">
-                <div className="image" style={{backgroundImage: "url('#{coverPath}#{artist}')"}}>
-                </div>
-              </div>
-              <div className="caption">{artist}</div>
-            </div> for artist in artists}
+            {<ImageComponent onClick={@renderAlbumsList.bind(@, artist)} artist=artist image="#{coverPath}#{artist}" /> for artist in artists}
           </div>
           @setState showing: 'cache'
       else
