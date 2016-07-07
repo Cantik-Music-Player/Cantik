@@ -16,21 +16,36 @@ class ImageComponent extends React.Component
   constructor: (props) ->
     super props
 
-    @state = {
-      image: @props.image
-    }
+    userData = remote.app.getPath 'userData'
 
-    Artwork.getArtistImage(@props.artist, (path) =>
-      @setState image: path + '?')
+    if not @props.album?
+      coverPath = "file:///#{userData}/images/artists/".replace(/\\/g, '/')
+      @state = image: "#{coverPath}#{@props.artist}"
+
+      Artwork.getArtistImage(@props.artist, (path) =>
+        @setState image: path + '?')
+    else
+      coverPath = "file:///#{userData}/images/albums/".replace(/\\/g, '/')
+      @state = image: "#{coverPath}#{@props.artist} - #{@props.album}"
+
+      Artwork.getAlbumImage(@props.artist, @props.album, (path) =>
+        @setState image: path + '?')
 
   render: ->
-    <div className="figure">
-      <div className="fallback-artist">
-        <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image}')"}}>
+    if not @props.album?
+      <div className="figure" onClick={@props.onClick}>
+        <div className="fallback-artist">
+          <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
         </div>
+        <div className="caption">{@props.artist}</div>
       </div>
-      <div className="caption">{@props.artist}</div>
-    </div>
+    else
+      <div className="figure" onClick={@props.onClick}>
+        <div className="fallback-album">
+          <div className="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
+        </div>
+        <div className="caption">{@props.album}</div>
+      </div>
 
 
 module.exports.LocalLibraryComponent=
@@ -186,7 +201,6 @@ class LocalLibraryComponent extends React.Component
     @setState showing: 'loading'
 
     @props.localLibrary.getAlbums(artist, (albums) =>
-      Artwork.getAlbumImage(artist, album) for album in albums
       coverPath = "file:///#{@props.localLibrary.userData}/images/albums/".replace(/\\/g, '/')
       @temporaryCache = <div>
         <div className="figure" onClick={@renderAlbum.bind(@, artist, "All tracks")}>
@@ -200,10 +214,7 @@ class LocalLibraryComponent extends React.Component
           </div>
           <div className="caption">All tracks</div>
         </div>
-        {<div className="figure" onClick={@renderAlbum.bind(@, artist, album)}>
-          <div className="fallback-album"><div className="image" style={{backgroundImage: "url('#{coverPath}#{artist} - #{album}')"}}></div></div>
-          <div className="caption">{album}</div>
-        </div> for album in albums}
+        {<ImageComponent onClick={@renderAlbum.bind(@, artist, album)} artist=artist album=album /> for album in albums}
       </div>
       @setState showing: 'cache')
 
@@ -218,9 +229,8 @@ class LocalLibraryComponent extends React.Component
         else if artists.length is 0
           @setState {showing: 'msg', msg: 'Empty library'}
         else
-          coverPath = "file:///#{@props.localLibrary.userData}/images/artists/".replace(/\\/g, '/')
           @temporaryCache = <div>
-            {<ImageComponent onClick={@renderAlbumsList.bind(@, artist)} artist=artist image="#{coverPath}#{artist}" /> for artist in artists}
+            {<ImageComponent onClick={@renderAlbumsList.bind(@, artist)} artist=artist /> for artist in artists}
           </div>
           @setState showing: 'cache'
       else
