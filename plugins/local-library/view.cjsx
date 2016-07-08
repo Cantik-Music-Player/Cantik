@@ -41,14 +41,14 @@ class ImageComponent extends React.Component
     if not @props.album?
       <div className="figure" onClick={@props.onClick}>
         <div className="fallback-artist">
-          <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
+          <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image.replace(/\'/g, '\\\'')}')"}}></div>
         </div>
         <div className="caption">{@props.artist}{'Unknow' if @props.artist is ''}</div>
       </div>
     else
       <div className="figure" onClick={@props.onClick}>
         <div className="fallback-album">
-          <div className="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
+          <div className="image" style={{backgroundImage: "url('#{@state.image.replace(/\'/g, '\\\'')}')"}}></div>
         </div>
         <div className="caption">{@props.album}{'Unknow' if @props.album is ''}</div>
       </div>
