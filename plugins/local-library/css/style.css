@@ -51,7 +51,7 @@
 }
 
 #local-library .figure .image:hover,
-#local-library .figure .image-composite:hover{
+#local-library .figure .image-composite{
   box-shadow:0 2px 2px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.3)
 }
 
@@ -64,30 +64,64 @@
   background: black;
 }
 
-#local-library .image-composite img:nth-child(1){
+#local-library .image-composite-4 img:nth-child(1){
   width: 60%;
   position: absolute;
 }
 
-#local-library .image-composite img:nth-child(2){
+#local-library .image-composite-4 img:nth-child(2){
   width: 60%;
   position: absolute;
   top: 0;
   left: 50%;
 }
 
-#local-library .image-composite img:nth-child(3){
+#local-library .image-composite-4 img:nth-child(3){
   width: 60%;
   position: absolute;
   top: 50%;
   left: 0;
 }
 
-#local-library .image-composite img:nth-child(4){
+#local-library .image-composite-4 img:nth-child(4){
   width: 60%;
   position: absolute;
   left: 50%;
   top: 50%;
+}
+
+#local-library .image-composite-3 img:nth-child(1){
+  width: 60%;
+  height: 100%;
+  position: absolute;
+}
+
+#local-library .image-composite-3 img:nth-child(2){
+  width: 60%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+
+#local-library .image-composite-3 img:nth-child(3){
+  width: 60%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+#local-library .image-composite-2 img:nth-child(1){
+  width: 60%;
+  height: 100%;
+  position: absolute;
+}
+
+#local-library .image-composite-2 img:nth-child(2){
+  width: 60%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
 }
 
 /*Album view*/

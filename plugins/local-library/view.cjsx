@@ -1,3 +1,4 @@
+fs = require 'fs'
 path = require 'path'
 React = require 'react'
 ReactDOM = require 'react-dom'
@@ -17,16 +18,21 @@ class ImageComponent extends React.Component
     super props
 
     userData = remote.app.getPath 'userData'
+    @state = image: ''
 
     if not @props.album?
       coverPath = "file:///#{userData}/images/artists/".replace(/\\/g, '/')
-      @state = image: "#{coverPath}#{@props.artist}"
+
+      if fs.existsSync("#{coverPath}#{@props.artist}".replace('file:///', ''))
+        @state = image: "#{coverPath}#{@props.artist}"
 
       Artwork.getArtistImage(@props.artist, (path) =>
         @setState image: path + '?')
     else
       coverPath = "file:///#{userData}/images/albums/".replace(/\\/g, '/')
-      @state = image: "#{coverPath}#{@props.artist} - #{@props.album}"
+
+      if fs.existsSync("#{coverPath}#{@props.artist} - #{@props.album}".replace('file:///', ''))
+        @state = image: "#{coverPath}#{@props.artist} - #{@props.album}"
 
       Artwork.getAlbumImage(@props.artist, @props.album, (path) =>
         @setState image: path + '?')
@@ -37,14 +43,14 @@ class ImageComponent extends React.Component
         <div className="fallback-artist">
           <div className="image" ref="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
         </div>
-        <div className="caption">{@props.artist}</div>
+        <div className="caption">{@props.artist}{'Unknow' if @props.artist is ''}</div>
       </div>
     else
       <div className="figure" onClick={@props.onClick}>
         <div className="fallback-album">
           <div className="image" style={{backgroundImage: "url('#{@state.image}')"}}></div>
         </div>
-        <div className="caption">{@props.album}</div>
+        <div className="caption">{@props.album}{'Unknow' if @props.album is ''}</div>
       </div>
 
 
@@ -203,17 +209,17 @@ class LocalLibraryComponent extends React.Component
     @props.localLibrary.getAlbums(artist, (albums) =>
       coverPath = "file:///#{@props.localLibrary.userData}/images/albums/".replace(/\\/g, '/')
       @temporaryCache = <div>
-        <div className="figure" onClick={@renderAlbum.bind(@, artist, "All tracks")}>
+        {<div className="figure" onClick={@renderAlbum.bind(@, artist, "All tracks")}>
           <div className="fallback-album">
-            <div className="image-composite">
-              {<img src={"#{coverPath}#{artist} - #{albums[0]}"} /> if albums[0]?}
-              {<img src={"#{coverPath}#{artist} - #{albums[1]}"} /> if albums[1]?}
-              {<img src={"#{coverPath}#{artist} - #{albums[2]}"} /> if albums[2]?}
-              {<img src={"#{coverPath}#{artist} - #{albums[3]}"} /> if albums[3]?}
+            <div className="image-composite image-composite-#{if albums.length <= 4 then albums.length else 4}">
+              {<img src={"#{coverPath}#{artist} - #{albums[0]}"} /> if albums[0]? and fs.existsSync("#{coverPath}#{artist} - #{albums[0]}".replace('file:///', ''))}
+              {<img src={"#{coverPath}#{artist} - #{albums[1]}"} /> if albums[1]? and fs.existsSync("#{coverPath}#{artist} - #{albums[1]}".replace('file:///', ''))}
+              {<img src={"#{coverPath}#{artist} - #{albums[2]}"} /> if albums[2]? and fs.existsSync("#{coverPath}#{artist} - #{albums[2]}".replace('file:///', ''))}
+              {<img src={"#{coverPath}#{artist} - #{albums[3]}"} /> if albums[3]? and fs.existsSync("#{coverPath}#{artist} - #{albums[3]}".replace('file:///', ''))}
             </div>
           </div>
           <div className="caption">All tracks</div>
-        </div>
+        </div> if albums.length > 1}
         {<ImageComponent onClick={@renderAlbum.bind(@, artist, album)} artist=artist album=album /> for album in albums}
       </div>
       @setState showing: 'cache')
