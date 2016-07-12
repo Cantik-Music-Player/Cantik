@@ -23,6 +23,8 @@
 
 /*HELPER CLASS*/
 .msg-info{
+    position: absolute;
+    width: 100%;
     text-align: center;
     margin-top: calc(50vh - 75px);
     transform: translateY(-50%);
