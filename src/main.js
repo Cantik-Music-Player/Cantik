@@ -15,6 +15,7 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   window = new BrowserWindow({title: 'Cantik', icon: 'static/images/icon.png'});
+  global.window = window;
   window.maximize();
   window.setMenu(null);
   window.loadURL('file://' + __dirname + '/../static/index.html');
