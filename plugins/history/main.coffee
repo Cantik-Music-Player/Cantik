@@ -28,7 +28,7 @@ class History
       @historyIndex = index
     catch error
       console.log "Cannot go to index #{index}: #{error}"
-    @avoidNewEntry = false
+    setTimeout((=> @avoidNewEntry = false), 10) # Wait the history function for a short period
 
   next: ->
     @goToEntry @historyIndex + 1
