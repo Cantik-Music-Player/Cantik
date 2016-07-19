@@ -1,5 +1,7 @@
-fs = require('fs')
-mm = require('musicmetadata')
+fs = require 'fs'
+gracefulFs = require 'graceful-fs'
+gracefulFs.gracefulify fs
+mm = require 'musicmetadata'
 
 module.exports =
 class Track
