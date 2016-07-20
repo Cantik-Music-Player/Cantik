@@ -1,12 +1,11 @@
-fs = require 'fs'
-gracefulFs = require 'graceful-fs'
-gracefulFs.gracefulify fs
+fs = require 'graceful-fs'
 mm = require 'musicmetadata'
 
 module.exports =
 class Track
   constructor: (@path, callback) ->
     stream = fs.createReadStream(@path)
+    stream.on('error', callback)
     mm(stream, {duration: true}, (err, metadata) =>
       if metadata?
         delete metadata.picture

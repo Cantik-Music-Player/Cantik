@@ -159,8 +159,9 @@ class LocalLibrary
             @db.get(filePath, (err, data) =>
               if err?.status is 404
                 new Track(filePath, (t) =>
-                  t._id = t.path
-                  @docToCreate.push(t)
+                  if t?
+                    t._id = t.path
+                    @docToCreate.push(t)
 
                   @toTreat--
                   @emit('totreat_updated', @toTreat)
