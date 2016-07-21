@@ -141,7 +141,11 @@ class LocalLibrary
       @toTreat = 0
       @emit('library_loading', @)
 
-    files = fs.readdirSync(libraryPath)
+    try
+      files = fs.readdirSync(libraryPath)
+    catch error
+      console.error "Unable to scan library: #{libraryPath}"
+      return
 
     # Get the files
     for file in files
