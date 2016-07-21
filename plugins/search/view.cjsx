@@ -18,6 +18,7 @@ class SearchComponent extends React.Component
     e.preventDefault()
     e.stopPropagation()
     @props.search.pluginManager.plugins.locallibrary.filterLibrary @query
+    @props.search.pluginManager.plugins.sidebar.changeTab 'Local Library'
 
 module.exports.show = (search, element) ->
   ReactDOM.render(

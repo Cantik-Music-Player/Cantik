@@ -1,6 +1,7 @@
 require 'coffee-react/register'
 SidebarComponent = require('./view.cjsx').SidebarComponent
 showSidebar = require('./view.cjsx').show
+normalizeString = require('../../src/utils').normalizeString
 
 module.exports =
 class Sidebar
@@ -10,6 +11,10 @@ class Sidebar
 
   show: ->
     showSidebar(@links, @element)
+
+  changeTab: (tabName) ->
+    id = normalizeString tabName
+    @element.querySelector(".panel .panel-body ul #sidebar-#{id} a").click()
 
   addLink: (name, category, onClick, active, dataToggle) ->
     active = if active then true else false
