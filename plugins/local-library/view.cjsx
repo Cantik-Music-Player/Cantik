@@ -229,17 +229,16 @@ class LocalLibraryComponent extends React.Component
     @setState showing: 'loading'
 
     @props.localLibrary.getArtists((artists) =>
-      if not @stopRendering
-        if artists.length is 0 and @props.localLibrary.localLibrary is ''
-          @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
-        else if artists.length is 0
-          @setState {showing: 'msg', msg: 'Empty library'}
-      else if artists.length > 0
+      if artists.length > 0
         @temporaryCache = <div>
           {<ImageComponent onClick={@renderAlbumsList.bind(@, artist)} artist=artist /> for artist in artists}
         </div>
         @stopRendering = false
         @setState showing: 'cache'
+      else if not @stopRendering and artists.length is 0 and @props.localLibrary.localLibrary is ''
+        @setState {showing: 'msg', msg: 'You need to set your music library path in settings'}
+      else if not @stopRendering and artists.length is 0
+        @setState {showing: 'msg', msg: 'Empty library'}
       else
         @stopRendering = false)
 
