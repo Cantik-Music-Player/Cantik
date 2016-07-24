@@ -31,7 +31,9 @@ class LocalLibrary
     @localLibrary = @pluginManager.plugins.settings.addSetting('Local Library',
                                                                'Library Path',
                                                                'file', '')
-    @parseLibrary @localLibrary if @localLibrary != ''
+
+    # Get artists in cache then scan library
+    @getArtists(=> @parseLibrary @localLibrary if @localLibrary != '')
 
     # Avoid going home when local library was not showed
     @preventGoHome = false

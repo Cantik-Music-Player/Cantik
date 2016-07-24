@@ -72,14 +72,16 @@ class LocalLibraryComponent extends React.Component
       do @renderArtistsList)
 
     @props.localLibrary.on('library_loading', =>
-      @max = 0
-      @stopRendering = true
-      @setState showing: 'loading')
+      if not @props.localLibrary.artists?
+        @max = 0
+        @stopRendering = true
+        @setState showing: 'loading')
 
     @props.localLibrary.on('totreat_updated', (toTreat) =>
-      @max = toTreat if toTreat > @max
-      done = @max - toTreat
-      @renderProgress(done, @max))
+      if not @props.localLibrary.artists?
+        @max = toTreat if toTreat > @max
+        done = @max - toTreat
+        @renderProgress(done, @max))
 
     @props.localLibrary.on('library_loaded', =>
       do @renderArtistsList)
