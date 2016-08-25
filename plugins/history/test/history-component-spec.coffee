@@ -1,6 +1,5 @@
-require 'coffee-react/register'
-HistoryComponent = require('../view.cjsx').HistoryComponent
-showHistory = require('../view.cjsx').show
+HistoryComponent = require('../view').HistoryComponent
+showHistory = require('../view').show
 
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'

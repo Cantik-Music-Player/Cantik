@@ -3,5 +3,15 @@
   "version": "0.0.1",
   "consumedServices": {
     "player": "^0.0.1"
+  },
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register test",
+    "coverage": "istanbul cover _mocha -- --timeout 200000 --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test"
+  },
+  "devDependencies": {
+    "coffee-coverage": "^1.0.1",
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3"
   }
 }

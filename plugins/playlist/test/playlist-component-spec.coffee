@@ -4,9 +4,8 @@ mock('electron', {
   remote: ''
 })
 
-require 'coffee-react/register'
-PlaylistComponent = require('../view.cjsx').PlaylistComponent
-showPlaylist = require('../view.cjsx').show
+PlaylistComponent = require('../view').PlaylistComponent
+showPlaylist = require('../view').show
 
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'

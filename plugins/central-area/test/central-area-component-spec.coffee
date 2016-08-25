@@ -1,6 +1,5 @@
-require 'coffee-react/register'
-CentralAreaComponent = require('../view.cjsx').CentralAreaComponent
-showCentralArea = require('../view.cjsx').show
+CentralAreaComponent = require('../view').CentralAreaComponent
+showCentralArea = require('../view').show
 
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'

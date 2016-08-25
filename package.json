@@ -6,7 +6,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron src/main.js",
-    "test": "mocha --timeout 200000 --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul plugins/**/spec/*-spec.coffee spec/*"
+    "test": "mocha --timeout 200000 --compilers coffee:coffee-script/register **/test/* ",
+    "coverage": "./coverage.sh"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
     "mocha": "^2.4.5",
     "mocha-jsdom": "^1.1.0",
     "mock-require": "^1.2.1",
-    "sinon": "^1.17.3"
+    "sinon": "^1.17.3",
+    "istanbul-combine": "^0.3.0"
   }
 }

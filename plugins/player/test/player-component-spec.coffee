@@ -1,5 +1,3 @@
-require 'coffee-react/register'
-
 sinon = require 'sinon'
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'
@@ -13,7 +11,7 @@ describe "Player Component", ->
   beforeEach ->
     Player = require '../main'
 
-    view = require '../view.cjsx'
+    view = require '../view'
     PlayerComponent = view.PlayerComponent
     @showPlayer = view.show
 

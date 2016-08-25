@@ -1,5 +1,23 @@
 {
   "name": "sidebar",
   "version": "0.0.1",
-  "DOMContainer": "body"
+  "DOMContainer": "body",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register test",
+    "coverage": "cjsx -cb view.cjsx && istanbul cover _mocha -- --timeout 200000 --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test",
+    "clean": "rm view.js"
+  },
+  "dependencies": {
+    "coffee-react": "^5.0.0",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2"
+  },
+  "devDependencies": {
+    "coffee-coverage": "^1.0.1",
+    "istanbul": "^0.4.3",
+    "jsdom": "^8.0.4",
+    "mocha": "^2.4.5",
+    "mocha-jsdom": "^1.1.0",
+    "sinon": "^1.17.3"
+  }
 }

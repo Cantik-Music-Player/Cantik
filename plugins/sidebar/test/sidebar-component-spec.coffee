@@ -1,6 +1,5 @@
-require 'coffee-react/register'
-SidebarComponent = require('../view.cjsx').SidebarComponent
-showSidebar = require('../view.cjsx').show
+SidebarComponent = require('../view').SidebarComponent
+showSidebar = require('../view').show
 
 assert = require 'assert'
 jsdom = require 'mocha-jsdom'
