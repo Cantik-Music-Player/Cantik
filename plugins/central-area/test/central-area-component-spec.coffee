@@ -13,7 +13,7 @@ describe "CentralArea Component", ->
   it "Render", ->
     e = showCentralArea(@centralArea, document.getElementsByTagName("body")[0])
 
-    assert(e instanceof HTMLElement)
+    assert(e instanceof window.HTMLElement)
 
     # Clean data-react-id
     html = document.getElementsByTagName("body")[0].innerHTML.replace(/ data-reactroot=""/g, '')
