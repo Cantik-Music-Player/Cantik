@@ -7,7 +7,7 @@
   "DOMContainer": "#sidebar",
   "DOMOrder": "before",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register test",
+    "test": "cjsx -cb view.cjsx && mocha --timeout 200000 --compilers coffee:coffee-script/register test && rm view.js",
     "coverage": "cjsx -cb view.cjsx && istanbul cover _mocha -- --timeout 200000 --recursive --compilers coffee:coffee-script/register --require coffee-coverage/register-istanbul test",
     "clean": "rm view.js"
   },
