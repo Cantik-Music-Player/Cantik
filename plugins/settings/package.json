@@ -18,8 +18,8 @@
   "devDependencies": {
     "coffee-coverage": "^1.0.1",
     "istanbul": "^0.4.3",
-    "jsdom": "^8.0.4",
-    "mocha": "^2.4.5",
+    "jsdom": "^9.4.2",
+    "mocha": "^3.0.2",
     "mocha-jsdom": "^1.1.0",
     "sinon": "^1.17.3"
   }
