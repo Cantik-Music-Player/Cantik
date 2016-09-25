@@ -1,9 +1,0 @@
-{
-  "name": "lastfm-scrobbler",
-  "version": "0.0.1",
-  "consumedServices": {
-    "player": "^0.0.1",
-    "settings": "^0.0.1"
-  },
-  "DOMContainer": "body"
-}

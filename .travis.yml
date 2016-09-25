@@ -16,11 +16,6 @@ notifications:
     on_success: never
     on_failure: change
 
-after_success:
-  - "npm run coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
-  - ./deploy.sh
-  - ./clean.sh
-
 deploy:
   provider: releases
   api_key:

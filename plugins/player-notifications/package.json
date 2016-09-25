@@ -1,7 +1,0 @@
-{
-  "name": "player-notifications",
-  "version": "0.0.1",
-  "consumedServices": {
-    "player": "^0.0.1"
-  }
-}
