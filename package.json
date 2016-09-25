@@ -5,9 +5,7 @@
   "description": "Modern Music Player",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron src/main.js",
-    "test": "./test.sh",
-    "coverage": "./coverage.sh"
+    "start": "electron src/main.js"
   },
   "repository": {
     "type": "git",
@@ -36,7 +34,8 @@
     "pouchdb": "^5.2.1",
     "pouchdb-quick-search": "^1.1.1",
     "request": "^2.72.0",
-    "graceful-fs": "^4.1.4"
+    "graceful-fs": "^4.1.4",
+    "ncp": "2.0.0"
   },
   "devDependencies": {
     "coffee-coverage": "^1.0.1",

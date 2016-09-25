@@ -31,10 +31,10 @@
     <script>
       $(function () {
         require('coffee-script/register');
+        cantik = require('../src/cantik')
 
-        // Load plugin manager
-        var PluginManager = require('../src/plugins-manager');
-        var pluginManager = new PluginManager();
+        var PackageManager = require('../src/package-manager');
+        var packageManager = new PackageManager();
 
         $.material.init();
 

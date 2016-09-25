@@ -1,12 +1,15 @@
 fs = require('fs')
 path = require('path')
 electron = require('electron')
+cantik = require('./cantik')
 app = electron.remote.app
 
 module.exports =
 class PluginManager
   constructor: ->
-    @pluginsBasePath = __dirname + '/../plugins'
+    @pluginsBasePath = "#{app.getPath('userData')}/plugins/"
+
+    fs.mkdirSync(@pluginsBasePath) if not fs.existsSync(@pluginsBasePath)
 
     files = fs.readdirSync(@pluginsBasePath)
     @plugins = {}
@@ -21,10 +24,11 @@ class PluginManager
   loadPlugin: (pluginPath) ->
     @loadPluginDepedencies(pluginPath)
     try
-      TempPlugin = require(pluginPath + '/main')
+      pluginJson = @loadPackageJSON(pluginPath)
+      TempPlugin = require(pluginPath + '/' + pluginJson['main'])
       @loadPluginCss "#{pluginPath}/css/"
-      element = @createDOMElement pluginPath
-      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(@, element)
+      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(cantik)
+      @plugins[@sanitizePluginName path.basename(pluginPath)].activate()
       @loadKeymap(pluginPath, @plugins[@sanitizePluginName path.basename(pluginPath)])
     catch error
       console.error("Cannot load #{pluginPath} plugin: #{error}")
@@ -39,17 +43,6 @@ class PluginManager
             @loadPluginCss cssPath
           else
             $('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', cssPath))
-
-  createDOMElement: (pluginPath) ->
-    packagejson = @loadPackageJSON(pluginPath)
-    parentSelector = packagejson.DOMContainer
-    if parentSelector?
-      elementId = "plugin-#{path.basename(pluginPath)}"
-
-      if packagejson.DOMOrder is "before"
-        $("<div id='#{elementId}'></div>").prependTo(parentSelector)[0]
-      else
-        $("<div id='#{elementId}'></div>").appendTo(parentSelector)[0]
 
   loadPluginDepedencies: (pluginPath) ->
     dependencies = @loadPackageJSON(pluginPath).consumedServices ? {}
