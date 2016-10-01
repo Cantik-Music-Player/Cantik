@@ -35,7 +35,10 @@
     "pouchdb-quick-search": "^1.1.1",
     "request": "^2.72.0",
     "graceful-fs": "^4.1.4",
-    "ncp": "2.0.0"
+    "ncp": "^2.0.0",
+    "adm-zip": "^0.4.7",
+    "request": "^2.75.0",
+    "uuid": "^2.0.3"
   },
   "devDependencies": {
     "coffee-coverage": "^1.0.1",
