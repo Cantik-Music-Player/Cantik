@@ -27,7 +27,7 @@ class PluginManager
     try
       pluginJson = @loadPackageJSON(pluginPath)
       TempPlugin = require(pluginPath + '/' + pluginJson['main'])
-      @loadPluginCss "#{pluginPath}/css/"
+      @loadPluginCss "#{pluginPath}/styles/"
       @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(require('./cantik'))
       @plugins[@sanitizePluginName path.basename(pluginPath)].activate()
       @loadKeymap(pluginPath, @plugins[@sanitizePluginName path.basename(pluginPath)])
