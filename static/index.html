@@ -32,6 +32,7 @@
       $(function () {
         require('coffee-script/register');
         cantik = require('../src/cantik')
+        cantik.pluginManager.loadPlugins()
 
         var PackageManager = require('../src/package-manager');
         var packageManager = new PackageManager();

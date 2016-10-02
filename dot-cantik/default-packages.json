@@ -1,6 +1,7 @@
 {
   "packages": {
     "sidebar" : "https://github.com/Cantik-Music-Player/sidebar",
-    "central-area": "https://github.com/Cantik-Music-Player/central-area"
+    "central-area": "https://github.com/Cantik-Music-Player/central-area",
+    "playlist": "https://github.com/Cantik-Music-Player/playlist"
   }
 }

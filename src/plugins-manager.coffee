@@ -1,12 +1,13 @@
 fs = require('fs')
 path = require('path')
 electron = require('electron')
-cantik = require('./cantik')
 app = electron.remote.app
 
 module.exports =
 class PluginManager
   constructor: ->
+
+  loadPlugins: ->
     @pluginsBasePath = "#{app.getPath('userData')}/plugins/"
 
     fs.mkdirSync(@pluginsBasePath) if not fs.existsSync(@pluginsBasePath)
@@ -27,7 +28,7 @@ class PluginManager
       pluginJson = @loadPackageJSON(pluginPath)
       TempPlugin = require(pluginPath + '/' + pluginJson['main'])
       @loadPluginCss "#{pluginPath}/css/"
-      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(cantik)
+      @plugins[@sanitizePluginName path.basename(pluginPath)] = new TempPlugin(require('./cantik'))
       @plugins[@sanitizePluginName path.basename(pluginPath)].activate()
       @loadKeymap(pluginPath, @plugins[@sanitizePluginName path.basename(pluginPath)])
     catch error
