@@ -46,8 +46,15 @@ class PackageManager
 
   installDefaultPackages: ->
     if fs.readdirSync(@pluginsPath).length == 0
-      defaultPackages = JSON.parse(fs.readFileSync("#{app.getAppPath()}/dot-cantik/default-packages.json"))
-      Object.keys(defaultPackages['packages']).forEach((key) =>
-        githubUrl = defaultPackages['packages'][key]
-        @installPackageFromGithubURL githubUrl
-      )
+      defaultPackages = null
+      try  # SHould work on packaged version
+        defaultPackages = JSON.parse(fs.readFileSync("#{app.getAppPath()}/dot-cantik/default-packages.json"))
+      catch error  # Should work on dev version
+        if fs.existsSync("dot-cantik/default-packages.json")
+          defaultPackages = JSON.parse(fs.readFileSync("dot-cantik/default-packages.json"))
+
+      if defaultPackages?
+        Object.keys(defaultPackages['packages']).forEach((key) =>
+          githubUrl = defaultPackages['packages'][key]
+          @installPackageFromGithubURL githubUrl
+        )
