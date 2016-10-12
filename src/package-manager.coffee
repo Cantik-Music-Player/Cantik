@@ -5,7 +5,6 @@ ncp = require('ncp').ncp
 exec = require('child_process').exec
 path = require 'path'
 uuid = require 'uuid'
-process = require 'process'
 electron = require 'electron'
 cantik = require './cantik'
 app = electron.remote.app
@@ -26,10 +25,11 @@ class PackageManager
       if err
         return console.error "Unable to install package: #{folder}: #{err}"
 
-      dirBack = process.cwd()
-      cmd = "cd #{pluginPath} && npm install && cd #{dirBack}"
+      cmd = "npm --prefix #{pluginPath} install #{pluginPath}"
 
       exec(cmd, (error, stdout, stderr) ->
+          console.error error if error?
+          console.error stderr if stderr?
           cantik.pluginManager.loadPlugin(pluginPath))
     )
 
