@@ -15,7 +15,7 @@ class PackageManager
   constructor: ->
     @pluginsPath = "#{app.getPath('userData')}/plugins/"
 
-  installPackage: (folder) ->
+  installPackage: (folder, callback) ->
     packageJson = JSON.parse(fs.readFileSync("#{folder}/package.json"))
     pluginPath = "#{@pluginsPath}/#{packageJson['name']}"
 
@@ -30,19 +30,19 @@ class PackageManager
       cmd = "cd #{pluginPath} && npm install && cd #{dirBack}"
 
       exec(cmd, (error, stdout, stderr) ->
-          cantik.pluginManager.loadPlugin(pluginPath))
+        do callback)
     )
 
-  extractZipAndInstall: (filename) ->
+  extractZipAndInstall: (filename, callback) ->
     zip = new AdmZip(filename)
     zip.extractAllTo("#{filename.replace('.zip', '')}/", true)
     subFolder = fs.readdirSync("#{filename.replace('.zip', '')}/")[0]
-    @installPackage "#{filename.replace('.zip', '')}/#{subFolder}"
+    @installPackage("#{filename.replace('.zip', '')}/#{subFolder}", callback)
 
-  installPackageFromGithubURL: (url) ->
+  installPackageFromGithubURL: (url, callback) ->
     zipUrl = "#{url}/archive/master.zip"
     filename = "#{app.getPath('temp')}/#{uuid.v4()}.zip"
-    request(zipUrl).pipe(fs.createWriteStream(filename)).on('close', @extractZipAndInstall.bind(@, filename))
+    request(zipUrl).pipe(fs.createWriteStream(filename)).on('close', @extractZipAndInstall.bind(@, filename, callback))
 
   installDefaultPackages: ->
     if fs.readdirSync(@pluginsPath).length == 0
@@ -54,7 +54,11 @@ class PackageManager
           defaultPackages = JSON.parse(fs.readFileSync("dot-cantik/default-packages.json"))
 
       if defaultPackages?
+        @toInstall = defaultPackages
         Object.keys(defaultPackages['packages']).forEach((key) =>
           githubUrl = defaultPackages['packages'][key]
-          @installPackageFromGithubURL githubUrl
-        )
+          @installPackageFromGithubURL(githubUrl, =>
+            # If all packages are installed, load them
+            @toInstall.splice(@toInstall.indexOf(key), 1)
+            if @toInstall.length == 0
+              do cantik.pluginManager.loadPlugins))
