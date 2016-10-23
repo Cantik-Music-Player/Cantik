@@ -6,6 +6,7 @@
     "player": "https://github.com/Cantik-Music-Player/player",
     "settings": "https://github.com/Cantik-Music-Player/settings",
     "history": "https://github.com/Cantik-Music-Player/history",
-    "lastfm-scrobbler": "https://github.com/Cantik-Music-Player/lastfm-scrobbler"
+    "lastfm-scrobbler": "https://github.com/Cantik-Music-Player/lastfm-scrobbler",
+    "player-notifications": "https://github.com/Cantik-Music-Player/player-notifications"
   }
 }
